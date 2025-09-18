@@ -20,7 +20,7 @@
     },
     "compareOptions": {
       "author": "Dimas Merida",
-      "getAuthorFromGit": false,
+      "getAuthorFromGit": true,
       "outputDirectory": "db_migration",
       "schemaCompare": {
         "namespaces": [],

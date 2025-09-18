@@ -2,7 +2,8 @@
   "name": "diff-supa",
   "module": "src/index.ts",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.15.5"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -12,6 +13,7 @@
     "@wmfs/pg-diff-sync": "^1.32.0",
     "i": "^0.3.7",
     "npm": "^11.6.0",
+    "pg": "^8.16.3",
     "pg-diff-cli": "^3.0.0",
     "pg-diff-sync": "^0.0.12"
   }
