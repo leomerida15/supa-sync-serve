@@ -1,8 +1,5 @@
-  import pgDiffSync from 'pg-diff-sync'
-  const currentDbStructure = {...} 
-  const expectedDbStructure = {...} 
+#!/usr/bin/env node
 
-  const statements = pgDiffSync(
-    currentDbStructure,
-    expectedDbStructure
-  )  
+import program from "./commands/cli";
+
+program.parse(process.argv);

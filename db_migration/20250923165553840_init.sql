@@ -1,6 +1,6 @@
 /************************************************************/
 /*** SCRIPT AUTHOR: leomerida15 (dimasmerida15@gmail.com) ***/
-/***    CREATED ON: 2025-09-18T12:39:16.060Z              ***/
+/***    CREATED ON: 2025-09-23T16:55:53.840Z              ***/
 /************************************************************/
 
 --- BEGIN INSTALL EXTENSION "vector" ---
@@ -145,6 +145,57 @@ ALTER SEQUENCE "ai"."agent_model_settings_id_seq" OWNER TO postgres;
 COMMENT ON SEQUENCE "ai"."agent_model_settings_id_seq"  IS NULL;
 
 --- END CREATE SEQUENCE "ai"."agent_model_settings_id_seq" ---
+
+--- BEGIN CREATE SEQUENCE "public"."form_case_two_financing_options_relation_id_seq" ---
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."form_case_two_financing_options_relation_id_seq" 
+	INCREMENT BY 1 
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE;
+
+ALTER SEQUENCE "public"."form_case_two_financing_options_relation_id_seq" OWNER TO postgres;
+
+COMMENT ON SEQUENCE "public"."form_case_two_financing_options_relation_id_seq"  IS NULL;
+
+--- END CREATE SEQUENCE "public"."form_case_two_financing_options_relation_id_seq" ---
+
+--- BEGIN CREATE SEQUENCE "public"."legal_documents_id_seq" ---
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."legal_documents_id_seq" 
+	INCREMENT BY 1 
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE;
+
+ALTER SEQUENCE "public"."legal_documents_id_seq" OWNER TO postgres;
+
+COMMENT ON SEQUENCE "public"."legal_documents_id_seq"  IS NULL;
+
+--- END CREATE SEQUENCE "public"."legal_documents_id_seq" ---
+
+--- BEGIN CREATE SEQUENCE "public"."form_case_two_constrainsts_relation_id_seq" ---
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."form_case_two_constrainsts_relation_id_seq" 
+	INCREMENT BY 1 
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE;
+
+ALTER SEQUENCE "public"."form_case_two_constrainsts_relation_id_seq" OWNER TO postgres;
+
+COMMENT ON SEQUENCE "public"."form_case_two_constrainsts_relation_id_seq"  IS NULL;
+
+--- END CREATE SEQUENCE "public"."form_case_two_constrainsts_relation_id_seq" ---
 
 --- BEGIN CREATE SEQUENCE "knowledge"."documents_id_seq" ---
 
@@ -1011,6 +1062,450 @@ COMMENT ON TABLE "public"."all_form_files"  IS 'table for all form files';
 
 --- END ALTER TABLE "auth"."mfa_factors" ---
 
+--- BEGIN CREATE TABLE "public"."form_case_two_actors_groups" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_actors_groups" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	CONSTRAINT "form_case_two_actors_groups_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_actors_groups" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups"."name"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_actors_groups_pkey" ON "public"."form_case_two_actors_groups" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_actors_groups"  IS 'Ny actors groups';
+
+--- END CREATE TABLE "public"."form_case_two_actors_groups" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_constraints" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_constraints" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	CONSTRAINT "form_case_two_constraints_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_constraints" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constraints" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constraints" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constraints" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constraints" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constraints" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constraints" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_constraints"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_constraints"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_constraints"."name"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_constraints_pkey" ON "public"."form_case_two_constraints" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_constraints"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two_constraints" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_extended_docs" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_extended_docs" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	"path" text NOT NULL  ,
+	"updated_at" timestamptz NULL  ,
+	CONSTRAINT "form_case_two_extended_docs_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_extended_docs" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_extended_docs" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_extended_docs" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_extended_docs" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_extended_docs" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_extended_docs" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_extended_docs" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_extended_docs"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_extended_docs"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_extended_docs"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_extended_docs"."path"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_extended_docs"."updated_at"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_extended_docs_pkey" ON "public"."form_case_two_extended_docs" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_extended_docs"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two_extended_docs" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	"description" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"aditional_financing" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"constraint_custom" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"esitmated_budget_amount" numeric NULL  ,
+	"estimated_budget_currency" text NULL  ,
+	"aditional_financing_amount" numeric NULL  ,
+	"aditional_financing_currency" numeric NULL  ,
+	CONSTRAINT "form_case_two_aditional_financing_fkey" FOREIGN KEY (aditional_financing) REFERENCES form_case_two_extended_docs(id) ,
+	CONSTRAINT "form_case_two_constraint_custom_fkey" FOREIGN KEY (constraint_custom) REFERENCES form_case_two_extended_docs(id) ,
+	CONSTRAINT "form_case_two_description_fkey" FOREIGN KEY (description) REFERENCES form_case_two_extended_docs(id) ,
+	CONSTRAINT "form_case_two_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."description"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."aditional_financing"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."constraint_custom"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."esitmated_budget_amount"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."estimated_budget_currency"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."aditional_financing_amount"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two"."aditional_financing_currency"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_aditional_financing_fkey" ON "public"."form_case_two" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_constraint_custom_fkey" ON "public"."form_case_two" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_description_fkey" ON "public"."form_case_two" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_pkey" ON "public"."form_case_two" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_target_population" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_target_population" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	"group" text NOT NULL  ,
+	CONSTRAINT "form_case_tow_target_population_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_target_population" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_target_population"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population"."group"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_tow_target_population_pkey" ON "public"."form_case_two_target_population" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_target_population"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two_target_population" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_policy_objective" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_policy_objective" (
+	"name" text NOT NULL  ,
+	"id" uuid NOT NULL  ,
+	CONSTRAINT "form_cae_two_policy_objective_type_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_policy_objective" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective"."id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_cae_two_policy_objective_type_pkey" ON "public"."form_case_two_policy_objective" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_policy_objective"  IS 'This is a duplicate of form_cae_two_policy_objective';
+
+--- END CREATE TABLE "public"."form_case_two_policy_objective" ---
+
 --- BEGIN CREATE TABLE "ai"."simulations" ---
 
 CREATE TABLE IF NOT EXISTS "ai"."simulations" (
@@ -1077,67 +1572,71 @@ COMMENT ON TABLE "ai"."simulations"  IS NULL;
 
 --- END CREATE TABLE "ai"."simulations" ---
 
---- BEGIN CREATE TABLE "public"."form_case_two_policy_objective" ---
+--- BEGIN CREATE TABLE "public"."form_case_two_financing_options" ---
 
-CREATE TABLE IF NOT EXISTS "public"."form_case_two_policy_objective" (
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_financing_options" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
 	"name" text NOT NULL  ,
-	"id" uuid NOT NULL  ,
-	CONSTRAINT "form_cae_two_policy_objective_type_pkey" PRIMARY KEY (id) 
+	CONSTRAINT "form_case_two_financing_options_pkey" PRIMARY KEY (id) 
 );
 
-ALTER TABLE IF EXISTS "public"."form_case_two_policy_objective" OWNER TO postgres;
+ALTER TABLE IF EXISTS "public"."form_case_two_financing_options" OWNER TO postgres;
 
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_policy_objective" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
 
-COMMENT ON COLUMN "public"."form_case_two_policy_objective"."name"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_financing_options"."id"  IS NULL;
 
 
-COMMENT ON COLUMN "public"."form_case_two_policy_objective"."id"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_financing_options"."created_at"  IS NULL;
 
-COMMENT ON CONSTRAINT "form_cae_two_policy_objective_type_pkey" ON "public"."form_case_two_policy_objective" IS NULL;
 
-COMMENT ON TABLE "public"."form_case_two_policy_objective"  IS 'This is a duplicate of form_cae_two_policy_objective';
+COMMENT ON COLUMN "public"."form_case_two_financing_options"."name"  IS NULL;
 
---- END CREATE TABLE "public"."form_case_two_policy_objective" ---
+COMMENT ON CONSTRAINT "form_case_two_financing_options_pkey" ON "public"."form_case_two_financing_options" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_financing_options"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two_financing_options" ---
 
 --- BEGIN CREATE TABLE "ai"."conversations" ---
 
@@ -2590,6 +3089,80 @@ COMMENT ON TABLE "storage"."buckets_analytics"  IS NULL;
 
 --- END CREATE TABLE "storage"."buckets_analytics" ---
 
+--- BEGIN CREATE TABLE "public"."form_case_two_actors_groups_values" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_actors_groups_values" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"name" text NOT NULL  ,
+	"actor_group_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_actors_groups_values_actor_group_id_fkey" FOREIGN KEY (actor_group_id) REFERENCES form_case_two_actors_groups(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_actors_groups_values_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_actors_groups_values" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups_values" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups_values" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups_values" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups_values" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_actors_groups_values" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups_values"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups_values"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups_values"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_actors_groups_values"."actor_group_id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_actors_groups_values_actor_group_id_fkey" ON "public"."form_case_two_actors_groups_values" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_actors_groups_values_pkey" ON "public"."form_case_two_actors_groups_values" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_actors_groups_values"  IS 'ny actors groups values';
+
+--- END CREATE TABLE "public"."form_case_two_actors_groups_values" ---
+
 --- BEGIN CREATE TABLE "realtime"."messages_2025_08_08" ---
 
 CREATE TABLE IF NOT EXISTS "realtime"."messages_2025_08_08" (
@@ -2812,75 +3385,239 @@ COMMENT ON TABLE "public"."extraction_errors"  IS NULL;
 
 --- END CREATE TABLE "public"."extraction_errors" ---
 
---- BEGIN CREATE TABLE "public"."form_case_two_target_population" ---
+--- BEGIN CREATE TABLE "public"."form_case_two_constrainsts_relation" ---
 
-CREATE TABLE IF NOT EXISTS "public"."form_case_two_target_population" (
-	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_constrainsts_relation" (
+	"id" int8 NOT NULL  GENERATED BY DEFAULT AS IDENTITY,
 	"created_at" timestamptz NOT NULL DEFAULT now() ,
-	"name" text NOT NULL  ,
-	"group" text NOT NULL  ,
-	CONSTRAINT "form_case_tow_target_population_pkey" PRIMARY KEY (id) 
+	"form_case_two_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"form_case_two_constraints_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_constrainsts_re_form_case_two_constraints_id_fkey" FOREIGN KEY (form_case_two_constraints_id) REFERENCES form_case_two_constraints(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_constrainsts_relation_form_case_two_id_fkey" FOREIGN KEY (form_case_two_id) REFERENCES form_case_two(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_constrainsts_relation_pkey" PRIMARY KEY (id) 
 );
 
-ALTER TABLE IF EXISTS "public"."form_case_two_target_population" OWNER TO postgres;
+ALTER TABLE IF EXISTS "public"."form_case_two_constrainsts_relation" OWNER TO postgres;
 
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_target_population" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_target_population" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constrainsts_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constrainsts_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constrainsts_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constrainsts_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_constrainsts_relation" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
 
-COMMENT ON COLUMN "public"."form_case_two_target_population"."id"  IS NULL;
-
-
-COMMENT ON COLUMN "public"."form_case_two_target_population"."created_at"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_constrainsts_relation"."id"  IS NULL;
 
 
-COMMENT ON COLUMN "public"."form_case_two_target_population"."name"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_constrainsts_relation"."created_at"  IS NULL;
 
 
-COMMENT ON COLUMN "public"."form_case_two_target_population"."group"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_constrainsts_relation"."form_case_two_id"  IS NULL;
 
-COMMENT ON CONSTRAINT "form_case_tow_target_population_pkey" ON "public"."form_case_two_target_population" IS NULL;
 
-COMMENT ON TABLE "public"."form_case_two_target_population"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_constrainsts_relation"."form_case_two_constraints_id"  IS NULL;
 
---- END CREATE TABLE "public"."form_case_two_target_population" ---
+COMMENT ON CONSTRAINT "form_case_two_constrainsts_re_form_case_two_constraints_id_fkey" ON "public"."form_case_two_constrainsts_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_constrainsts_relation_form_case_two_id_fkey" ON "public"."form_case_two_constrainsts_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_constrainsts_relation_pkey" ON "public"."form_case_two_constrainsts_relation" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_constrainsts_relation"  IS 'relation many to many betwen form_case_two and form_case_two_constrainsts';
+
+--- END CREATE TABLE "public"."form_case_two_constrainsts_relation" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_target_population_relation" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_target_population_relation" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"form_case_two_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"form_case_two_target_population_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_target_populati_form_case_two_target_populat_fkey" FOREIGN KEY (form_case_two_target_population_id) REFERENCES form_case_two_target_population(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_target_pupolation_relation_form_case_two_id_fkey" FOREIGN KEY (form_case_two_id) REFERENCES form_case_two(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_target_pupolation_relation_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_target_population_relation" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_target_population_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_target_population_relation" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_target_population_relation"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population_relation"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population_relation"."form_case_two_id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_target_population_relation"."form_case_two_target_population_id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_target_populati_form_case_two_target_populat_fkey" ON "public"."form_case_two_target_population_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_target_pupolation_relation_form_case_two_id_fkey" ON "public"."form_case_two_target_population_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_target_pupolation_relation_pkey" ON "public"."form_case_two_target_population_relation" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_target_population_relation"  IS 'realtions many to many between form_case_two and form_case_two_target_population';
+
+--- END CREATE TABLE "public"."form_case_two_target_population_relation" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_policy_objective_relation" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_policy_objective_relation" (
+	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"form_case_two_id" uuid NULL DEFAULT gen_random_uuid() ,
+	"form_case_two_policy_objetive_id" uuid NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_policy_objectiv_form_case_two_policy_objetiv_fkey" FOREIGN KEY (form_case_two_policy_objetive_id) REFERENCES form_case_two_policy_objective(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_policy_objective_relation_form_case_two_id_fkey" FOREIGN KEY (form_case_two_id) REFERENCES form_case_two(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_policy_objective_relation_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."form_case_two_policy_objective_relation" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_policy_objective_relation" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective_relation"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective_relation"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective_relation"."form_case_two_id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_policy_objective_relation"."form_case_two_policy_objetive_id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_policy_objectiv_form_case_two_policy_objetiv_fkey" ON "public"."form_case_two_policy_objective_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_policy_objective_relation_form_case_two_id_fkey" ON "public"."form_case_two_policy_objective_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_policy_objective_relation_pkey" ON "public"."form_case_two_policy_objective_relation" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_policy_objective_relation"  IS 'Relations many to many between form_case_two_policy_objective and form_case_two';
+
+--- END CREATE TABLE "public"."form_case_two_policy_objective_relation" ---
 
 --- BEGIN CREATE TABLE "ai"."a2a_report_files" ---
 
@@ -2996,137 +3733,247 @@ COMMENT ON TABLE "ai"."a2a_report_files"  IS NULL;
 
 --- END CREATE TABLE "ai"."a2a_report_files" ---
 
---- BEGIN CREATE TABLE "public"."form_case_two_financing_options" ---
+--- BEGIN CREATE TABLE "public"."legal_documents" ---
 
-CREATE TABLE IF NOT EXISTS "public"."form_case_two_financing_options" (
+CREATE TABLE IF NOT EXISTS "public"."legal_documents" (
+	"id" int8 NOT NULL  GENERATED BY DEFAULT AS IDENTITY,
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"type" legal_document_type NOT NULL  ,
+	"language" varchar NOT NULL  ,
+	"version" int8 NOT NULL  ,
+	"main_title" varchar NOT NULL  ,
+	"content" text NOT NULL  ,
+	CONSTRAINT "legal_documents_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "public"."legal_documents" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "public"."legal_documents" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."legal_documents" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."legal_documents" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."legal_documents" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."legal_documents" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."legal_documents" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."legal_documents" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "public"."legal_documents"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."created_at"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."type"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."language"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."version"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."main_title"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."legal_documents"."content"  IS NULL;
+
+COMMENT ON CONSTRAINT "legal_documents_pkey" ON "public"."legal_documents" IS NULL;
+
+COMMENT ON TABLE "public"."legal_documents"  IS 'legal documetns as a terms and privacy';
+
+--- END CREATE TABLE "public"."legal_documents" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_locations" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_locations" (
 	"id" uuid NOT NULL DEFAULT gen_random_uuid() ,
 	"created_at" timestamptz NOT NULL DEFAULT now() ,
-	"name" text NULL  ,
-	CONSTRAINT "form_case_two_financing_options_pkey" PRIMARY KEY (id) 
+	"address" text NOT NULL  ,
+	"lat" float8 NOT NULL  ,
+	"lon" float8 NOT NULL  ,
+	"form_case_two_id" uuid NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_locations_form_case_two_id_fkey" FOREIGN KEY (form_case_two_id) REFERENCES form_case_two(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_locations_pkey" PRIMARY KEY (id) 
 );
 
-ALTER TABLE IF EXISTS "public"."form_case_two_financing_options" OWNER TO postgres;
+ALTER TABLE IF EXISTS "public"."form_case_two_locations" OWNER TO postgres;
 
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "public"."form_case_two_financing_options" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_locations" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_locations" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_locations" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_locations" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_locations" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_locations" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
 
-COMMENT ON COLUMN "public"."form_case_two_financing_options"."id"  IS NULL;
-
-
-COMMENT ON COLUMN "public"."form_case_two_financing_options"."created_at"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_locations"."id"  IS NULL;
 
 
-COMMENT ON COLUMN "public"."form_case_two_financing_options"."name"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_locations"."created_at"  IS NULL;
 
-COMMENT ON CONSTRAINT "form_case_two_financing_options_pkey" ON "public"."form_case_two_financing_options" IS NULL;
 
-COMMENT ON TABLE "public"."form_case_two_financing_options"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_locations"."address"  IS NULL;
 
---- END CREATE TABLE "public"."form_case_two_financing_options" ---
 
---- BEGIN CREATE TABLE "ai"."agent_model_settings" ---
+COMMENT ON COLUMN "public"."form_case_two_locations"."lat"  IS NULL;
 
-CREATE TABLE IF NOT EXISTS "ai"."agent_model_settings" (
+
+COMMENT ON COLUMN "public"."form_case_two_locations"."lon"  IS NULL;
+
+
+COMMENT ON COLUMN "public"."form_case_two_locations"."form_case_two_id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_locations_form_case_two_id_fkey" ON "public"."form_case_two_locations" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_locations_pkey" ON "public"."form_case_two_locations" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_locations"  IS NULL;
+
+--- END CREATE TABLE "public"."form_case_two_locations" ---
+
+--- BEGIN CREATE TABLE "public"."form_case_two_financing_options_relation" ---
+
+CREATE TABLE IF NOT EXISTS "public"."form_case_two_financing_options_relation" (
 	"id" int8 NOT NULL  GENERATED BY DEFAULT AS IDENTITY,
-	"name" text NULL  ,
-	"model" text NULL  ,
-	CONSTRAINT "agent_model_settings_pkey" PRIMARY KEY (id) 
+	"created_at" timestamptz NOT NULL DEFAULT now() ,
+	"form_case_two_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	"form_case_two_financing_options_id" uuid NOT NULL DEFAULT gen_random_uuid() ,
+	CONSTRAINT "form_case_two_financing_optio_form_case_two_financing_opti_fkey" FOREIGN KEY (form_case_two_financing_options_id) REFERENCES form_case_two_financing_options(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_financing_options_relation_form_case_two_id_fkey" FOREIGN KEY (form_case_two_id) REFERENCES form_case_two(id) ON DELETE CASCADE ,
+	CONSTRAINT "form_case_two_financing_options_relation_pkey" PRIMARY KEY (id) 
 );
 
-ALTER TABLE IF EXISTS "ai"."agent_model_settings" OWNER TO postgres;
+ALTER TABLE IF EXISTS "public"."form_case_two_financing_options_relation" OWNER TO postgres;
 
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT INSERT ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT DELETE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
-GRANT SELECT ON TABLE "ai"."agent_model_settings" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options_relation" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options_relation" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options_relation" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options_relation" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "public"."form_case_two_financing_options_relation" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
 
-COMMENT ON COLUMN "ai"."agent_model_settings"."id"  IS NULL;
-
-
-COMMENT ON COLUMN "ai"."agent_model_settings"."name"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_financing_options_relation"."id"  IS NULL;
 
 
-COMMENT ON COLUMN "ai"."agent_model_settings"."model"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_financing_options_relation"."created_at"  IS NULL;
 
-COMMENT ON CONSTRAINT "agent_model_settings_pkey" ON "ai"."agent_model_settings" IS NULL;
 
-COMMENT ON TABLE "ai"."agent_model_settings"  IS NULL;
+COMMENT ON COLUMN "public"."form_case_two_financing_options_relation"."form_case_two_id"  IS NULL;
 
---- END CREATE TABLE "ai"."agent_model_settings" ---
+
+COMMENT ON COLUMN "public"."form_case_two_financing_options_relation"."form_case_two_financing_options_id"  IS NULL;
+
+COMMENT ON CONSTRAINT "form_case_two_financing_optio_form_case_two_financing_opti_fkey" ON "public"."form_case_two_financing_options_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_financing_options_relation_form_case_two_id_fkey" ON "public"."form_case_two_financing_options_relation" IS NULL;
+
+
+COMMENT ON CONSTRAINT "form_case_two_financing_options_relation_pkey" ON "public"."form_case_two_financing_options_relation" IS NULL;
+
+COMMENT ON TABLE "public"."form_case_two_financing_options_relation"  IS 'relaations many to many beetwen form_case_two and form_case_two_financing_options';
+
+--- END CREATE TABLE "public"."form_case_two_financing_options_relation" ---
 
 --- BEGIN CREATE TABLE "public"."form_case_two_policy_sub_objective" ---
 
@@ -3197,6 +4044,72 @@ COMMENT ON CONSTRAINT "form_case_two_policy_sub_objective_pkey" ON "public"."for
 COMMENT ON TABLE "public"."form_case_two_policy_sub_objective"  IS NULL;
 
 --- END CREATE TABLE "public"."form_case_two_policy_sub_objective" ---
+
+--- BEGIN CREATE TABLE "ai"."agent_model_settings" ---
+
+CREATE TABLE IF NOT EXISTS "ai"."agent_model_settings" (
+	"id" int8 NOT NULL  GENERATED BY DEFAULT AS IDENTITY,
+	"name" text NULL  ,
+	"model" ai_model NULL  ,
+	CONSTRAINT "agent_model_settings_pkey" PRIMARY KEY (id) 
+);
+
+ALTER TABLE IF EXISTS "ai"."agent_model_settings" OWNER TO postgres;
+
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO pg_read_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO pg_write_all_data; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO postgres; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO authenticated; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO anon; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO service_role; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT INSERT ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT UPDATE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT DELETE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRUNCATE ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT REFERENCES ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT TRIGGER ON TABLE "ai"."agent_model_settings" TO supabase_admin; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+GRANT SELECT ON TABLE "ai"."agent_model_settings" TO supabase_read_only_user; --WARN: Grant\Revoke privileges to a role can occure in a sql error during execution if role is missing to the target database!
+
+COMMENT ON COLUMN "ai"."agent_model_settings"."id"  IS NULL;
+
+
+COMMENT ON COLUMN "ai"."agent_model_settings"."name"  IS NULL;
+
+
+COMMENT ON COLUMN "ai"."agent_model_settings"."model"  IS NULL;
+
+COMMENT ON CONSTRAINT "agent_model_settings_pkey" ON "ai"."agent_model_settings" IS NULL;
+
+COMMENT ON TABLE "ai"."agent_model_settings"  IS NULL;
+
+--- END CREATE TABLE "ai"."agent_model_settings" ---
 
 --- BEGIN CREATE TABLE "ai"."case_prompt_setting" ---
 
@@ -3618,6 +4531,369 @@ COMMENT ON FUNCTION "public"."update_updated_at_column"()  IS NULL;
 
 --- END CREATE FUNCTION "public"."update_updated_at_column"() ---
 
+--- BEGIN CREATE FUNCTION "storage"."search_v2"(text, text, integer, integer, text, text, text, text) ---
+
+CREATE OR REPLACE FUNCTION storage.search_v2(prefix text, bucket_name text, limits integer DEFAULT 100, levels integer DEFAULT 1, start_after text DEFAULT ''::text, sort_order text DEFAULT 'asc'::text, sort_column text DEFAULT 'name'::text, sort_column_after text DEFAULT ''::text)
+ RETURNS TABLE(key text, name text, id uuid, updated_at timestamp with time zone, created_at timestamp with time zone, last_accessed_at timestamp with time zone, metadata jsonb)
+ LANGUAGE plpgsql
+ STABLE
+AS $function$
+DECLARE
+    sort_col text;
+    sort_ord text;
+    cursor_op text;
+    cursor_expr text;
+    sort_expr text;
+BEGIN
+    -- Validate sort_order
+    sort_ord := lower(sort_order);
+    IF sort_ord NOT IN ('asc', 'desc') THEN
+        sort_ord := 'asc';
+    END IF;
+
+    -- Determine cursor comparison operator
+    IF sort_ord = 'asc' THEN
+        cursor_op := '>';
+    ELSE
+        cursor_op := '<';
+    END IF;
+    
+    sort_col := lower(sort_column);
+    -- Validate sort column  
+    IF sort_col IN ('updated_at', 'created_at') THEN
+        cursor_expr := format(
+            '($5 = '''' OR ROW(date_trunc(''milliseconds'', %I), name COLLATE "C") %s ROW(COALESCE(NULLIF($6, '''')::timestamptz, ''epoch''::timestamptz), $5))',
+            sort_col, cursor_op
+        );
+        sort_expr := format(
+            'COALESCE(date_trunc(''milliseconds'', %I), ''epoch''::timestamptz) %s, name COLLATE "C" %s',
+            sort_col, sort_ord, sort_ord
+        );
+    ELSE
+        cursor_expr := format('($5 = '''' OR name COLLATE "C" %s $5)', cursor_op);
+        sort_expr := format('name COLLATE "C" %s', sort_ord);
+    END IF;
+
+    RETURN QUERY EXECUTE format(
+        $sql$
+        SELECT * FROM (
+            (
+                SELECT
+                    split_part(name, '/', $4) AS key,
+                    name,
+                    NULL::uuid AS id,
+                    updated_at,
+                    created_at,
+                    NULL::timestamptz AS last_accessed_at,
+                    NULL::jsonb AS metadata
+                FROM storage.prefixes
+                WHERE name COLLATE "C" LIKE $1 || '%%'
+                    AND bucket_id = $2
+                    AND level = $4
+                    AND %s
+                ORDER BY %s
+                LIMIT $3
+            )
+            UNION ALL
+            (
+                SELECT
+                    split_part(name, '/', $4) AS key,
+                    name,
+                    id,
+                    updated_at,
+                    created_at,
+                    last_accessed_at,
+                    metadata
+                FROM storage.objects
+                WHERE name COLLATE "C" LIKE $1 || '%%'
+                    AND bucket_id = $2
+                    AND level = $4
+                    AND %s
+                ORDER BY %s
+                LIMIT $3
+            )
+        ) obj
+        ORDER BY %s
+        LIMIT $3
+        $sql$,
+        cursor_expr,    -- prefixes WHERE
+        sort_expr,      -- prefixes ORDER BY
+        cursor_expr,    -- objects WHERE
+        sort_expr,      -- objects ORDER BY
+        sort_expr       -- final ORDER BY
+    )
+    USING prefix, bucket_name, limits, levels, start_after, sort_column_after;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."search_v2"(text, text, integer, integer, text, text, text, text) OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."search_v2"(text, text, integer, integer, text, text, text, text)  IS NULL;
+
+--- END CREATE FUNCTION "storage"."search_v2"(text, text, integer, integer, text, text, text, text) ---
+
+--- BEGIN CREATE FUNCTION "storage"."lock_top_prefixes"(text[], text[]) ---
+
+CREATE OR REPLACE FUNCTION storage.lock_top_prefixes(bucket_ids text[], names text[])
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
+DECLARE
+    v_bucket text;
+    v_top text;
+BEGIN
+    FOR v_bucket, v_top IN
+        SELECT DISTINCT t.bucket_id,
+            split_part(t.name, '/', 1) AS top
+        FROM unnest(bucket_ids, names) AS t(bucket_id, name)
+        WHERE t.name <> ''
+        ORDER BY 1, 2
+        LOOP
+            PERFORM pg_advisory_xact_lock(hashtextextended(v_bucket || '/' || v_top, 0));
+        END LOOP;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."lock_top_prefixes"(text[], text[]) OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."lock_top_prefixes"(text[], text[])  IS NULL;
+
+--- END CREATE FUNCTION "storage"."lock_top_prefixes"(text[], text[]) ---
+
+--- BEGIN CREATE FUNCTION "storage"."delete_leaf_prefixes"(text[], text[]) ---
+
+CREATE OR REPLACE FUNCTION storage.delete_leaf_prefixes(bucket_ids text[], names text[])
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
+DECLARE
+    v_rows_deleted integer;
+BEGIN
+    LOOP
+        WITH candidates AS (
+            SELECT DISTINCT t.bucket_id,
+                unnest(storage.get_prefixes(t.name)) AS name
+            FROM unnest(bucket_ids, names) AS t(bucket_id, name)
+        ),
+        uniq AS (
+            SELECT bucket_id,
+                   name,
+                   storage.get_level(name) AS level
+             FROM candidates
+             WHERE name <> ''
+             GROUP BY bucket_id, name
+        ),
+        leaf AS (
+            SELECT p.bucket_id, p.name, p.level
+            FROM storage.prefixes AS p
+            JOIN uniq AS u
+              ON u.bucket_id = p.bucket_id
+                  AND u.name = p.name
+                  AND u.level = p.level
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM storage.objects AS o
+                WHERE o.bucket_id = p.bucket_id
+                  AND storage.get_level(o.name) = p.level + 1
+                  AND o.name COLLATE "C" LIKE p.name || '/%'
+            )
+            AND NOT EXISTS (
+                SELECT 1
+                FROM storage.prefixes AS c
+                WHERE c.bucket_id = p.bucket_id
+                  AND c.level = p.level + 1
+                  AND c.name COLLATE "C" LIKE p.name || '/%'
+            )
+        )
+        DELETE FROM storage.prefixes AS p
+        USING leaf AS l
+        WHERE p.bucket_id = l.bucket_id
+          AND p.name = l.name
+          AND p.level = l.level;
+
+        GET DIAGNOSTICS v_rows_deleted = ROW_COUNT;
+        EXIT WHEN v_rows_deleted = 0;
+    END LOOP;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."delete_leaf_prefixes"(text[], text[]) OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."delete_leaf_prefixes"(text[], text[])  IS NULL;
+
+--- END CREATE FUNCTION "storage"."delete_leaf_prefixes"(text[], text[]) ---
+
+--- BEGIN CREATE FUNCTION "storage"."objects_delete_cleanup"() ---
+
+CREATE OR REPLACE FUNCTION storage.objects_delete_cleanup()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
+DECLARE
+    v_bucket_ids text[];
+    v_names      text[];
+BEGIN
+    IF current_setting('storage.gc.prefixes', true) = '1' THEN
+        RETURN NULL;
+    END IF;
+
+    PERFORM set_config('storage.gc.prefixes', '1', true);
+
+    SELECT COALESCE(array_agg(d.bucket_id), '{}'),
+           COALESCE(array_agg(d.name), '{}')
+    INTO v_bucket_ids, v_names
+    FROM deleted AS d
+    WHERE d.name <> '';
+
+    PERFORM storage.lock_top_prefixes(v_bucket_ids, v_names);
+    PERFORM storage.delete_leaf_prefixes(v_bucket_ids, v_names);
+
+    RETURN NULL;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."objects_delete_cleanup"() OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."objects_delete_cleanup"()  IS NULL;
+
+--- END CREATE FUNCTION "storage"."objects_delete_cleanup"() ---
+
+--- BEGIN CREATE FUNCTION "storage"."objects_update_cleanup"() ---
+
+CREATE OR REPLACE FUNCTION storage.objects_update_cleanup()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
+DECLARE
+    -- NEW - OLD (destinations to create prefixes for)
+    v_add_bucket_ids text[];
+    v_add_names      text[];
+
+    -- OLD - NEW (sources to prune)
+    v_src_bucket_ids text[];
+    v_src_names      text[];
+BEGIN
+    IF TG_OP <> 'UPDATE' THEN
+        RETURN NULL;
+    END IF;
+
+    -- 1) Compute NEW−OLD (added paths) and OLD−NEW (moved-away paths)
+    WITH added AS (
+        SELECT n.bucket_id, n.name
+        FROM new_rows n
+        WHERE n.name <> '' AND position('/' in n.name) > 0
+        EXCEPT
+        SELECT o.bucket_id, o.name FROM old_rows o WHERE o.name <> ''
+    ),
+    moved AS (
+         SELECT o.bucket_id, o.name
+         FROM old_rows o
+         WHERE o.name <> ''
+         EXCEPT
+         SELECT n.bucket_id, n.name FROM new_rows n WHERE n.name <> ''
+    )
+    SELECT
+        -- arrays for ADDED (dest) in stable order
+        COALESCE( (SELECT array_agg(a.bucket_id ORDER BY a.bucket_id, a.name) FROM added a), '{}' ),
+        COALESCE( (SELECT array_agg(a.name      ORDER BY a.bucket_id, a.name) FROM added a), '{}' ),
+        -- arrays for MOVED (src) in stable order
+        COALESCE( (SELECT array_agg(m.bucket_id ORDER BY m.bucket_id, m.name) FROM moved m), '{}' ),
+        COALESCE( (SELECT array_agg(m.name      ORDER BY m.bucket_id, m.name) FROM moved m), '{}' )
+    INTO v_add_bucket_ids, v_add_names, v_src_bucket_ids, v_src_names;
+
+    -- Nothing to do?
+    IF (array_length(v_add_bucket_ids, 1) IS NULL) AND (array_length(v_src_bucket_ids, 1) IS NULL) THEN
+        RETURN NULL;
+    END IF;
+
+    -- 2) Take per-(bucket, top) locks: ALL prefixes in consistent global order to prevent deadlocks
+    DECLARE
+        v_all_bucket_ids text[];
+        v_all_names text[];
+    BEGIN
+        -- Combine source and destination arrays for consistent lock ordering
+        v_all_bucket_ids := COALESCE(v_src_bucket_ids, '{}') || COALESCE(v_add_bucket_ids, '{}');
+        v_all_names := COALESCE(v_src_names, '{}') || COALESCE(v_add_names, '{}');
+
+        -- Single lock call ensures consistent global ordering across all transactions
+        IF array_length(v_all_bucket_ids, 1) IS NOT NULL THEN
+            PERFORM storage.lock_top_prefixes(v_all_bucket_ids, v_all_names);
+        END IF;
+    END;
+
+    -- 3) Create destination prefixes (NEW−OLD) BEFORE pruning sources
+    IF array_length(v_add_bucket_ids, 1) IS NOT NULL THEN
+        WITH candidates AS (
+            SELECT DISTINCT t.bucket_id, unnest(storage.get_prefixes(t.name)) AS name
+            FROM unnest(v_add_bucket_ids, v_add_names) AS t(bucket_id, name)
+            WHERE name <> ''
+        )
+        INSERT INTO storage.prefixes (bucket_id, name)
+        SELECT c.bucket_id, c.name
+        FROM candidates c
+        ON CONFLICT DO NOTHING;
+    END IF;
+
+    -- 4) Prune source prefixes bottom-up for OLD−NEW
+    IF array_length(v_src_bucket_ids, 1) IS NOT NULL THEN
+        -- re-entrancy guard so DELETE on prefixes won't recurse
+        IF current_setting('storage.gc.prefixes', true) <> '1' THEN
+            PERFORM set_config('storage.gc.prefixes', '1', true);
+        END IF;
+
+        PERFORM storage.delete_leaf_prefixes(v_src_bucket_ids, v_src_names);
+    END IF;
+
+    RETURN NULL;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."objects_update_cleanup"() OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."objects_update_cleanup"()  IS NULL;
+
+--- END CREATE FUNCTION "storage"."objects_update_cleanup"() ---
+
+--- BEGIN CREATE FUNCTION "storage"."prefixes_delete_cleanup"() ---
+
+CREATE OR REPLACE FUNCTION storage.prefixes_delete_cleanup()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
+DECLARE
+    v_bucket_ids text[];
+    v_names      text[];
+BEGIN
+    IF current_setting('storage.gc.prefixes', true) = '1' THEN
+        RETURN NULL;
+    END IF;
+
+    PERFORM set_config('storage.gc.prefixes', '1', true);
+
+    SELECT COALESCE(array_agg(d.bucket_id), '{}'),
+           COALESCE(array_agg(d.name), '{}')
+    INTO v_bucket_ids, v_names
+    FROM deleted AS d
+    WHERE d.name <> '';
+
+    PERFORM storage.lock_top_prefixes(v_bucket_ids, v_names);
+    PERFORM storage.delete_leaf_prefixes(v_bucket_ids, v_names);
+
+    RETURN NULL;
+END;
+$function$
+;
+ALTER FUNCTION "storage"."prefixes_delete_cleanup"() OWNER TO supabase_storage_admin;
+
+COMMENT ON FUNCTION "storage"."prefixes_delete_cleanup"()  IS NULL;
+
+--- END CREATE FUNCTION "storage"."prefixes_delete_cleanup"() ---
+
 --- BEGIN CREATE FUNCTION "public"."match_knowledge"(vector, integer, jsonb) ---
 
 CREATE OR REPLACE FUNCTION public.match_knowledge(query_embedding vector, match_count integer DEFAULT NULL::integer, filter jsonb DEFAULT '{}'::jsonb)
@@ -3983,58 +5259,6 @@ ALTER FUNCTION "storage"."delete_prefix_hierarchy_trigger"() OWNER TO supabase_s
 COMMENT ON FUNCTION "storage"."delete_prefix_hierarchy_trigger"()  IS NULL;
 
 --- END CREATE FUNCTION "storage"."delete_prefix_hierarchy_trigger"() ---
-
---- BEGIN CREATE FUNCTION "storage"."search_v2"(text, text, integer, integer, text) ---
-
-CREATE OR REPLACE FUNCTION storage.search_v2(prefix text, bucket_name text, limits integer DEFAULT 100, levels integer DEFAULT 1, start_after text DEFAULT ''::text)
- RETURNS TABLE(key text, name text, id uuid, updated_at timestamp with time zone, created_at timestamp with time zone, metadata jsonb)
- LANGUAGE plpgsql
- STABLE
-AS $function$
-BEGIN
-    RETURN query EXECUTE
-        $sql$
-        SELECT * FROM (
-            (
-                SELECT
-                    split_part(name, '/', $4) AS key,
-                    name || '/' AS name,
-                    NULL::uuid AS id,
-                    NULL::timestamptz AS updated_at,
-                    NULL::timestamptz AS created_at,
-                    NULL::jsonb AS metadata
-                FROM storage.prefixes
-                WHERE name COLLATE "C" LIKE $1 || '%'
-                AND bucket_id = $2
-                AND level = $4
-                AND name COLLATE "C" > $5
-                ORDER BY prefixes.name COLLATE "C" LIMIT $3
-            )
-            UNION ALL
-            (SELECT split_part(name, '/', $4) AS key,
-                name,
-                id,
-                updated_at,
-                created_at,
-                metadata
-            FROM storage.objects
-            WHERE name COLLATE "C" LIKE $1 || '%'
-                AND bucket_id = $2
-                AND level = $4
-                AND name COLLATE "C" > $5
-            ORDER BY name COLLATE "C" LIMIT $3)
-        ) obj
-        ORDER BY name COLLATE "C" LIMIT $3;
-        $sql$
-        USING prefix, bucket_name, limits, levels, start_after;
-END;
-$function$
-;
-ALTER FUNCTION "storage"."search_v2"(text, text, integer, integer, text) OWNER TO supabase_storage_admin;
-
-COMMENT ON FUNCTION "storage"."search_v2"(text, text, integer, integer, text)  IS NULL;
-
---- END CREATE FUNCTION "storage"."search_v2"(text, text, integer, integer, text) ---
 
 --- BEGIN CREATE FUNCTION "storage"."search_v1_optimised"(text, text, integer, integer, integer, text, text, text) ---
 
@@ -4402,17 +5626,17 @@ COMMENT ON TRIGGER update_form_case_one_sub_consequences_relation_updated_at ON 
 
 --- BEGIN SET TRIGGERS FOR "storage"."objects" ---
 
-CREATE TRIGGER objects_delete_delete_prefix AFTER DELETE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.delete_prefix_hierarchy_trigger();
+CREATE TRIGGER objects_delete_cleanup AFTER DELETE ON storage.objects REFERENCING OLD TABLE AS deleted FOR EACH STATEMENT EXECUTE FUNCTION storage.objects_delete_cleanup();
 
-COMMENT ON TRIGGER objects_delete_delete_prefix ON "storage"."objects" IS NULL;
+COMMENT ON TRIGGER objects_delete_cleanup ON "storage"."objects" IS NULL;
 
 CREATE TRIGGER objects_insert_create_prefix BEFORE INSERT ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.objects_insert_prefix_trigger();
 
 COMMENT ON TRIGGER objects_insert_create_prefix ON "storage"."objects" IS NULL;
 
-CREATE TRIGGER objects_update_create_prefix BEFORE UPDATE ON storage.objects FOR EACH ROW WHEN (((new.name <> old.name) OR (new.bucket_id <> old.bucket_id))) EXECUTE FUNCTION storage.objects_update_prefix_trigger();
+CREATE TRIGGER objects_update_cleanup AFTER UPDATE ON storage.objects REFERENCING OLD TABLE AS old_rows NEW TABLE AS new_rows FOR EACH STATEMENT EXECUTE FUNCTION storage.objects_update_cleanup();
 
-COMMENT ON TRIGGER objects_update_create_prefix ON "storage"."objects" IS NULL;
+COMMENT ON TRIGGER objects_update_cleanup ON "storage"."objects" IS NULL;
 
 --- END SET TRIGGERS FOR "storage"."objects" ---
 
@@ -4438,9 +5662,9 @@ CREATE TRIGGER prefixes_create_hierarchy BEFORE INSERT ON storage.prefixes FOR E
 
 COMMENT ON TRIGGER prefixes_create_hierarchy ON "storage"."prefixes" IS NULL;
 
-CREATE TRIGGER prefixes_delete_hierarchy AFTER DELETE ON storage.prefixes FOR EACH ROW EXECUTE FUNCTION storage.delete_prefix_hierarchy_trigger();
+CREATE TRIGGER prefixes_delete_cleanup AFTER DELETE ON storage.prefixes REFERENCING OLD TABLE AS deleted FOR EACH STATEMENT EXECUTE FUNCTION storage.prefixes_delete_cleanup();
 
-COMMENT ON TRIGGER prefixes_delete_hierarchy ON "storage"."prefixes" IS NULL;
+COMMENT ON TRIGGER prefixes_delete_cleanup ON "storage"."prefixes" IS NULL;
 
 --- END SET TRIGGERS FOR "storage"."prefixes" ---
 

@@ -1,50 +1,44 @@
 {
-  "GobernAI.sync.config": {
-    "sourceClient": {
-      "host": "aws-0-us-east-2.pooler.supabase.com",
-      "port": 5432,
-      "database": "postgres",
-      "user": "postgres.qklwlyoenlffxnwrkxuc",
-      "password": "Kw07OePOyVZKRHjy",
-      "applicationName": "GobernAI",
-      "ssl": false
-    },
-    "targetClient": {
-      "host": "aws-1-us-east-2.pooler.supabase.com",
-      "port": 5432,
-      "database": "postgres",
-      "user": "postgres.yvztwadvzlapiqjkmabb",
-      "password": "aVsmeJBn5J35ii1W",
-      "applicationName": "GobernAI",
-      "ssl": false
-    },
-    "compareOptions": {
-      "author": "Dimas Merida",
-      "getAuthorFromGit": true,
-      "outputDirectory": "db_migration",
-      "schemaCompare": {
-        "namespaces": [],
-        "dropMissingTable": false,
-        "dropMissingView": false,
-        "dropMissingFunction": false,
-        "dropMissingAggregate": false,
-        "roles": []
-      },
-      "dataCompare": {
-        "enable": false,
-        "tables": [
-          {
-            "tableName": "my_table_example",
-            "tableSchema": "public",
-            "tableKeyFields": ["id"]
-          }
-        ]
-      }
-    },
-    "migrationOptions": {
-      "patchesDirectory": "db_migration",
-      "historyTableName": "migrations",
-      "historyTableSchema": "public"
-    }
-  }
+	"GobernAI.sync.config": {
+		"sourceClient": {
+			"host": "aws-0-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.qklwlyoenlffxnwrkxuc",
+			"password": "Kw07OePOyVZKRHjy",
+			"applicationName": "GobernAI dev",
+			"ssl": false
+		},
+		"targetClient": {
+			"host": "aws-1-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.yvztwadvzlapiqjkmabb",
+			"password": "aVsmeJBn5J35ii1W",
+			"applicationName": "GobernAI QA",
+			"ssl": false
+		},
+		"compareOptions": {
+			"author": "Dimas Merida",
+			"getAuthorFromGit": true,
+			"outputDirectory": "db_migration",
+			"schemaCompare": {
+				"namespaces": [],
+				"dropMissingTable": false,
+				"dropMissingView": false,
+				"dropMissingFunction": false,
+				"dropMissingAggregate": false,
+				"roles": []
+			},
+			"dataCompare": {
+				"enable": false,
+				"tables": []
+			}
+		},
+		"migrationOptions": {
+			"patchesDirectory": "db_migration",
+			"historyTableName": "migrations",
+			"historyTableSchema": "public"
+		}
+	}
 }
