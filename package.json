@@ -30,6 +30,7 @@
 		"@inquirer/prompts": "^7.8.6",
 		"commander": "^14.0.1",
 		"pg": "^8.16.3",
+		"pg-diff-api": "^1.5.3",
 		"pg-diff-cli": "^3.0.0"
 	}
 }
