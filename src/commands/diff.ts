@@ -1,26 +1,9 @@
 import { Command } from 'commander';
+import { Run } from '../../packages/pg-diff/cli/main';
 
 export const diffCommand = new Command('diff')
 	.description('Extract and use all commands from pg-diff-cli package')
-	.argument('[config-name]', 'Configuration name')
-	.argument('[script-name]', 'Script name')
-	.option('-c, --compare', 'Run compare and generate a patch file')
-	.option('--migrate-to-source', 'Run migration applying all missing patch files to SOURCE CLIENT')
-	.option('--migrate-to-target', 'Run migration applying all missing patch files to TARGET CLIENT')
-	.option(
-		'-f, --config-file <path>',
-		"Specify where to find config file, otherwise looks for 'pg-diff-config.json' on current working directory",
-	)
-	.option(
-		'-p, --patch-folder <path>',
-		'Set patch folder where save\\retrieve patches (it will override configuration)',
-	)
-	.option(
-		'-s, --save',
-		'Save\\register patch on migration history table without executing the script',
-	)
-	.option('-g, --generate-config [name]', 'Generate a new config file')
-	.option('--help', 'Show help for pg-diff-cli')
+
 	.action(async (configName, scriptName, options) => {
 		try {
 			// Build arguments array from parsed options
@@ -92,20 +75,8 @@ export const diffCommand = new Command('diff')
 			}
 
 			// Import and execute pg-diff-cli with the constructed arguments
-			const { spawn } = await import('child_process');
-			const child = spawn('npx', ['pg-diff-cli', ...args], {
-				stdio: 'inherit',
-				cwd: process.cwd(),
-			});
 
-			child.on('error', (error: Error) => {
-				console.error(`Error executing pg-diff-cli: ${error.message}`);
-				process.exit(1);
-			});
-
-			child.on('close', (code: number) => {
-				process.exit(code || 0);
-			});
+			await Run();
 		} catch (error) {
 			console.error(`Error in diff command: ${error}`);
 			process.exit(1);

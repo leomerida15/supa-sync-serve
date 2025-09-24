@@ -24,8 +24,11 @@
 		"open-data-mcp": {
 			"url": "https://open-data-mcp-dev.up.railway.app/mcp"
 		},
-		"pg-diff-repo": {
+		"pg-diff-cli-repo": {
 			"url": "https://gitmcp.io/michaelsogos/pg-diff"
+		},
+		"pg-diff-api-repo": {
+			"url": "https://gitmcp.io/michaelsogos/pg-diff-api"
 		},
 		"MCP-A2A-Protocol": {
 			"url": "https://gitmcp.io/aamitttt/A2A-Protocol"
