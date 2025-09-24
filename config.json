@@ -23,12 +23,15 @@
 			"getAuthorFromGit": true,
 			"outputDirectory": "db_migration",
 			"schemaCompare": {
-				"namespaces": [],
+				"namespaces": ["public", "knowledge"],
 				"dropMissingTable": false,
 				"dropMissingView": false,
 				"dropMissingFunction": false,
 				"dropMissingAggregate": false,
-				"roles": []
+				"dropMissingType": false,
+				"dropMissingEnum": false,
+				"roles": [],
+				"rowLevelSecurity": true
 			},
 			"dataCompare": {
 				"enable": false,
