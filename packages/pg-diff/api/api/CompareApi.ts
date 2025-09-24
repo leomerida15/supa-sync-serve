@@ -367,59 +367,36 @@ export class CompareApi {
 				sqlPatch.push(``);
 			}
 
-			// Crear enums y custom types si existen en source
-			console.log('🔍 Verificando enums y types en dbSourceObjects:');
-			console.log('dbSourceObjects.enums:', dbSourceObjects?.enums);
-			console.log('dbSourceObjects.types:', dbSourceObjects?.types);
-
-			if (dbSourceObjects?.enums && Object.keys(dbSourceObjects.enums).length > 0) {
-				console.log('✅ Encontrados enums en SOURCE');
-				sqlPatch.push(`-- Crear enums y custom types`);
-				Object.keys(dbSourceObjects.enums).forEach((enumName) => {
-					const enumData = dbSourceObjects.enums[enumName];
-					if (enumData && enumData.values) {
-						sqlPatch.push(
-							`CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
-						);
-					}
-				});
-				sqlPatch.push(``);
-			} else {
-				console.log('⚠️ No se encontraron enums en SOURCE');
-			}
-
-			// Crear custom types si existen en source
-			if (dbSourceObjects?.types && Object.keys(dbSourceObjects.types).length > 0) {
-				console.log('✅ Encontrados custom types en SOURCE');
-				sqlPatch.push(`-- Crear custom types`);
-				Object.keys(dbSourceObjects.types).forEach((typeName) => {
-					const typeData = dbSourceObjects.types[typeName];
-					if (typeData && typeData.definition) {
-						sqlPatch.push(`CREATE TYPE ${typeName} AS (${typeData.definition});`);
-					}
-				});
-				sqlPatch.push(``);
-			} else {
-				console.log('⚠️ No se encontraron custom types en SOURCE');
-			}
+			// Los enums y types se manejan en las funciones compareEnums y compareTypes
+			// No los creamos aquí para evitar duplicación
 
 			// Generar SQL real para crear las tablas faltantes
 			missingInTarget.forEach((tableName) => {
 				// Extraer schema y nombre de tabla
 				const [schema, table] = tableName.replace(/"/g, '').split('.');
 
-				// Generar comando SQL real para crear tabla
-				sqlPatch.push(`CREATE TABLE ${tableName} (`);
-				sqlPatch.push(`    id SERIAL PRIMARY KEY,`);
-				sqlPatch.push(`    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),`);
-				sqlPatch.push(`    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()`);
-				sqlPatch.push(`);`);
-
-				// Habilitar RLS en la tabla
-				sqlPatch.push(`ALTER TABLE ${tableName} ENABLE ROW LEVEL SECURITY;`);
-
-				// Crear política RLS básica
-				sqlPatch.push(`CREATE POLICY "${table}_policy" ON ${tableName} FOR ALL USING (true);`);
+				// Generar comando SQL real para crear tabla con validación
+				sqlPatch.push(`-- Crear tabla ${tableName} si no existe`);
+				sqlPatch.push(`DO $$`);
+				sqlPatch.push(`BEGIN`);
+				sqlPatch.push(
+					`    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = '${schema}' AND table_name = '${table}') THEN`,
+				);
+				sqlPatch.push(`        CREATE TABLE ${tableName} (`);
+				sqlPatch.push(`            id SERIAL PRIMARY KEY,`);
+				sqlPatch.push(`            created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),`);
+				sqlPatch.push(`            updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()`);
+				sqlPatch.push(`        );`);
+				sqlPatch.push(``);
+				sqlPatch.push(`        -- Habilitar RLS en la tabla`);
+				sqlPatch.push(`        ALTER TABLE ${tableName} ENABLE ROW LEVEL SECURITY;`);
+				sqlPatch.push(``);
+				sqlPatch.push(`        -- Crear política RLS básica`);
+				sqlPatch.push(
+					`        CREATE POLICY "${table}_policy" ON ${tableName} FOR ALL USING (true);`,
+				);
+				sqlPatch.push(`    END IF;`);
+				sqlPatch.push(`END $$;`);
 				sqlPatch.push(``); // Línea en blanco
 			});
 		} else {
@@ -454,9 +431,18 @@ export class CompareApi {
 			if (!targetEnums[enumName]) {
 				console.log(`✅ Enum ${enumName} faltante en TARGET`);
 				const enumData = sourceEnums[enumName];
+				sqlPatch.push(`-- Crear enum ${enumName} si no existe`);
+				sqlPatch.push(`DO $$`);
+				sqlPatch.push(`BEGIN`);
 				sqlPatch.push(
-					`CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
+					`    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '${enumData.name}' AND typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = '${enumData.schema}')) THEN`,
 				);
+				sqlPatch.push(
+					`        CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
+				);
+				sqlPatch.push(`    END IF;`);
+				sqlPatch.push(`END $$;`);
+				sqlPatch.push(``);
 			} else {
 				// Comparar valores del enum
 				const sourceValues = sourceEnums[enumName].values;
@@ -467,7 +453,16 @@ export class CompareApi {
 				if (missingValues.length > 0) {
 					console.log(`✅ Valores faltantes en enum ${enumName}:`, missingValues);
 					missingValues.forEach((value: string) => {
-						sqlPatch.push(`ALTER TYPE ${enumName} ADD VALUE '${value}';`);
+						sqlPatch.push(`-- Agregar valor '${value}' al enum ${enumName} si no existe`);
+						sqlPatch.push(`DO $$`);
+						sqlPatch.push(`BEGIN`);
+						sqlPatch.push(
+							`    IF NOT EXISTS (SELECT 1 FROM pg_enum WHERE enumlabel = '${value}' AND enumtypid = (SELECT oid FROM pg_type WHERE typname = '${sourceEnums[enumName].name}')) THEN`,
+						);
+						sqlPatch.push(`        ALTER TYPE ${enumName} ADD VALUE '${value}';`);
+						sqlPatch.push(`    END IF;`);
+						sqlPatch.push(`END $$;`);
+						sqlPatch.push(``);
 					});
 				}
 			}
@@ -492,7 +487,16 @@ export class CompareApi {
 				console.log(`✅ Type ${typeName} faltante en TARGET`);
 				const typeData = sourceTypes[typeName];
 				if (typeData.definition) {
-					sqlPatch.push(`CREATE TYPE ${typeName} AS (${typeData.definition});`);
+					sqlPatch.push(`-- Crear custom type ${typeName} si no existe`);
+					sqlPatch.push(`DO $$`);
+					sqlPatch.push(`BEGIN`);
+					sqlPatch.push(
+						`    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '${typeData.name}' AND typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = '${typeData.schema}')) THEN`,
+					);
+					sqlPatch.push(`        CREATE TYPE ${typeName} AS (${typeData.definition});`);
+					sqlPatch.push(`    END IF;`);
+					sqlPatch.push(`END $$;`);
+					sqlPatch.push(``);
 				}
 			}
 		});
