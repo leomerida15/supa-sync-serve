@@ -77,6 +77,12 @@ export interface DatabaseObjects {
 	aggregates: Record<string, any> | null;
 	sequences: Record<string, any> | null;
 	extensions: Record<string, any> | null;
+	enums: Record<string, any> | null;
+	types: Record<string, any> | null;
+	triggers: Record<string, any> | null;
+	procedures: Record<string, any> | null;
+	foreignKeys: Record<string, any> | null;
+	tableStructures: Record<string, any> | null;
 }
 
 export interface TableData {

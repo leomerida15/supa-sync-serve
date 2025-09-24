@@ -266,6 +266,165 @@ export class CatalogApi {
 
 		return types;
 	}
+
+	/**
+	 * Retrieve foreign keys from database
+	 * @param client PostgreSQL client
+	 * @param config Configuration
+	 * @returns Promise<Record<string, any>> Foreign key definitions
+	 */
+	static async retrieveForeignKeys(client: Client, config: Config): Promise<Record<string, any>> {
+		const foreignKeys: Record<string, any> = {};
+
+		if (
+			!config.compareOptions.schemaCompare.namespaces ||
+			config.compareOptions.schemaCompare.namespaces.length === 0
+		) {
+			return foreignKeys;
+		}
+
+		const namespaces = Array.isArray(config.compareOptions.schemaCompare.namespaces)
+			? config.compareOptions.schemaCompare.namespaces
+			: [config.compareOptions.schemaCompare.namespaces];
+
+		for (const namespace of namespaces) {
+			const result = await client.query(
+				`
+				SELECT 
+					tc.table_name,
+					tc.constraint_name,
+					tc.constraint_type,
+					kcu.column_name,
+					ccu.table_name AS foreign_table_name,
+					ccu.table_name AS foreign_table_name,
+					ccu.column_name AS foreign_column_name,
+					rc.update_rule,
+					rc.delete_rule
+				FROM information_schema.table_constraints AS tc 
+				JOIN information_schema.key_column_usage AS kcu
+					ON tc.constraint_name = kcu.constraint_name
+					AND tc.table_schema = kcu.table_schema
+				JOIN information_schema.constraint_column_usage AS ccu
+					ON ccu.constraint_name = tc.constraint_name
+					AND ccu.table_schema = tc.table_schema
+				LEFT JOIN information_schema.referential_constraints AS rc
+					ON tc.constraint_name = rc.constraint_name
+					AND tc.table_schema = rc.constraint_schema
+				WHERE tc.constraint_type = 'FOREIGN KEY' 
+					AND tc.table_schema = $1
+				ORDER BY tc.table_name, tc.constraint_name
+			`,
+				[namespace],
+			);
+
+			result.rows.forEach((row: any) => {
+				const fkName = `"${namespace}"."${row.table_name}"."${row.constraint_name}"`;
+				foreignKeys[fkName] = {
+					tableName: row.table_name,
+					schema: namespace,
+					constraintName: row.constraint_name,
+					columnName: row.column_name,
+					foreignTableName: row.foreign_table_name,
+					foreignColumnName: row.foreign_column_name,
+					updateRule: row.update_rule,
+					deleteRule: row.delete_rule,
+				};
+			});
+		}
+
+		return foreignKeys;
+	}
+
+	/**
+	 * Retrieve complete table structure (columns, types, constraints)
+	 * @param client PostgreSQL client
+	 * @param config Configuration
+	 * @returns Promise<Record<string, any>> Table structures
+	 */
+	static async retrieveTableStructures(
+		client: Client,
+		config: Config,
+	): Promise<Record<string, any>> {
+		const tableStructures: Record<string, any> = {};
+
+		if (
+			!config.compareOptions.schemaCompare.namespaces ||
+			config.compareOptions.schemaCompare.namespaces.length === 0
+		) {
+			return tableStructures;
+		}
+
+		const namespaces = Array.isArray(config.compareOptions.schemaCompare.namespaces)
+			? config.compareOptions.schemaCompare.namespaces
+			: [config.compareOptions.schemaCompare.namespaces];
+
+		for (const namespace of namespaces) {
+			// Obtener estructura completa de las tablas con nombres reales de tipos y primary keys
+			const result = await client.query(
+				`
+				SELECT 
+					t.table_name,
+					c.column_name,
+					c.data_type,
+					c.character_maximum_length,
+					c.is_nullable,
+					c.column_default,
+					c.ordinal_position,
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as real_data_type,
+					CASE WHEN pk.column_name IS NOT NULL THEN true ELSE false END as is_primary_key
+				FROM information_schema.tables t
+				JOIN information_schema.columns c ON t.table_name = c.table_name AND t.table_schema = c.table_schema
+				JOIN pg_class pc ON pc.relname = t.table_name
+				JOIN pg_namespace pn ON pn.oid = pc.relnamespace AND pn.nspname = t.table_schema
+				JOIN pg_attribute a ON a.attrelid = pc.oid AND a.attname = c.column_name
+				LEFT JOIN (
+					SELECT ku.table_name, ku.column_name
+					FROM information_schema.table_constraints tc
+					JOIN information_schema.key_column_usage ku ON tc.constraint_name = ku.constraint_name
+					WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.table_schema = $1
+				) pk ON pk.table_name = t.table_name AND pk.column_name = c.column_name
+				WHERE t.table_schema = $1 AND t.table_type = 'BASE TABLE' AND a.attnum > 0
+				ORDER BY t.table_name, c.ordinal_position
+			`,
+				[namespace],
+			);
+
+			result.rows.forEach((row: any) => {
+				const tableName = `"${namespace}"."${row.table_name}"`;
+				if (!tableStructures[tableName]) {
+					tableStructures[tableName] = {
+						schema: namespace,
+						tableName: row.table_name,
+						columns: {},
+					};
+				}
+
+				// Procesar el valor por defecto para manejar sequences
+				let processedDefault = row.column_default;
+				if (processedDefault && processedDefault.includes('nextval')) {
+					// Convertir nextval a SERIAL para evitar dependencias de sequences
+					if (row.real_data_type === 'integer') {
+						processedDefault = null; // Se manejará como SERIAL
+					}
+				}
+
+				// Usar el tipo real en lugar de USER-DEFINED
+				const actualDataType = row.real_data_type || row.data_type;
+
+				tableStructures[tableName].columns[row.column_name] = {
+					dataType: actualDataType,
+					maxLength: row.character_maximum_length,
+					isNullable: row.is_nullable === 'YES',
+					defaultValue: processedDefault,
+					originalDefault: row.column_default, // Guardar el original para referencia
+					ordinalPosition: row.ordinal_position,
+					isPrimaryKey: row.is_primary_key,
+				};
+			});
+		}
+
+		return tableStructures;
+	}
 }
 
 export default CatalogApi;

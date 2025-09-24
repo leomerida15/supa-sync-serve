@@ -54,12 +54,12 @@ export class Core {
 		pgClient: Client,
 		config: MigrationConfig,
 	): Promise<void> {
-		migrationHistoryTableSchema.constraints[config.migrationHistory.primaryKeyName] = {
+		(migrationHistoryTableSchema.constraints as any)[config.migrationHistory.primaryKeyName] = {
 			type: 'p',
 			definition: 'PRIMARY KEY ("version")',
 		};
 
-		migrationHistoryTableSchema.privileges[config.migrationHistory.tableOwner] = {
+		(migrationHistoryTableSchema.privileges as any)[config.migrationHistory.tableOwner] = {
 			select: true,
 			insert: true,
 			update: true,
@@ -113,7 +113,7 @@ export class Core {
 			user: config.user,
 			host: config.host,
 			database: config.database,
-			password: config.password,
+			password: config.password || '',
 			port: config.port,
 			application_name: config.applicationName,
 			ssl: config.ssl,
