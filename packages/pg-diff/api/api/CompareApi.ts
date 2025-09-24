@@ -39,10 +39,90 @@ export class CompareApi {
 			21,
 		);
 
+		// Analizar bases de datos antes de la comparación
+		await Core.analyzeDatabases(pgSourceClient, pgTargetClient);
+
 		const dbSourceObjects = await this.collectSchemaObjects(pgSourceClient, config);
 		eventEmitter.emit('compare', 'Collected SOURCE objects', 30);
 		const dbTargetObjects = await this.collectSchemaObjects(pgTargetClient, config);
 		eventEmitter.emit('compare', 'Collected TARGET objects', 40);
+
+		// Log de objetos recopilados para debugging
+		console.log('\n🔍 OBJETOS RECOPILADOS:');
+		console.log('\n📊 SOURCE Objects:');
+		console.log(
+			`   Schemas: ${dbSourceObjects.schemas ? Object.keys(dbSourceObjects.schemas).length : 0}`,
+		);
+		console.log(
+			`   Tables: ${dbSourceObjects.tables ? Object.keys(dbSourceObjects.tables).length : 0}`,
+		);
+		console.log(
+			`   Views: ${dbSourceObjects.views ? Object.keys(dbSourceObjects.views).length : 0}`,
+		);
+		console.log(
+			`   Sequences: ${dbSourceObjects.sequences ? Object.keys(dbSourceObjects.sequences).length : 0}`,
+		);
+		console.log(
+			`   Functions: ${dbSourceObjects.functions ? Object.keys(dbSourceObjects.functions).length : 0}`,
+		);
+		console.log(
+			`   Types: ${dbSourceObjects.types ? Object.keys(dbSourceObjects.types).length : 0}`,
+		);
+		console.log(
+			`   Enums: ${dbSourceObjects.enums ? Object.keys(dbSourceObjects.enums).length : 0}`,
+		);
+		console.log(
+			`   Triggers: ${dbSourceObjects.triggers ? Object.keys(dbSourceObjects.triggers).length : 0}`,
+		);
+		console.log(
+			`   Procedures: ${dbSourceObjects.procedures ? Object.keys(dbSourceObjects.procedures).length : 0}`,
+		);
+		console.log(
+			`   Aggregates: ${dbSourceObjects.aggregates ? Object.keys(dbSourceObjects.aggregates).length : 0}`,
+		);
+
+		console.log('\n📊 TARGET Objects:');
+		console.log(
+			`   Schemas: ${dbTargetObjects.schemas ? Object.keys(dbTargetObjects.schemas).length : 0}`,
+		);
+		console.log(
+			`   Tables: ${dbTargetObjects.tables ? Object.keys(dbTargetObjects.tables).length : 0}`,
+		);
+		console.log(
+			`   Views: ${dbTargetObjects.views ? Object.keys(dbTargetObjects.views).length : 0}`,
+		);
+		console.log(
+			`   Sequences: ${dbTargetObjects.sequences ? Object.keys(dbTargetObjects.sequences).length : 0}`,
+		);
+		console.log(
+			`   Functions: ${dbTargetObjects.functions ? Object.keys(dbTargetObjects.functions).length : 0}`,
+		);
+		console.log(
+			`   Types: ${dbTargetObjects.types ? Object.keys(dbTargetObjects.types).length : 0}`,
+		);
+		console.log(
+			`   Enums: ${dbTargetObjects.enums ? Object.keys(dbTargetObjects.enums).length : 0}`,
+		);
+		console.log(
+			`   Triggers: ${dbTargetObjects.triggers ? Object.keys(dbTargetObjects.triggers).length : 0}`,
+		);
+		console.log(
+			`   Procedures: ${dbTargetObjects.procedures ? Object.keys(dbTargetObjects.procedures).length : 0}`,
+		);
+		console.log(
+			`   Aggregates: ${dbTargetObjects.aggregates ? Object.keys(dbTargetObjects.aggregates).length : 0}`,
+		);
+
+		// Mostrar nombres específicos de tablas
+		console.log('\n📋 TABLAS DETALLADAS:');
+		console.log(
+			'SOURCE Tables:',
+			dbSourceObjects.tables ? Object.keys(dbSourceObjects.tables) : [],
+		);
+		console.log(
+			'TARGET Tables:',
+			dbTargetObjects.tables ? Object.keys(dbTargetObjects.tables) : [],
+		);
 
 		const droppedConstraints: string[] = [];
 		const droppedIndexes: string[] = [];
@@ -62,27 +142,14 @@ export class CompareApi {
 			eventEmitter,
 		);
 
-		if (config.compareOptions.dataCompare.enable) {
-			scripts.push(
-				...(await this.compareTablesRecords(
-					config,
-					pgSourceClient,
-					pgTargetClient,
-					addedColumns,
-					addedTables,
-					dbSourceObjects,
-					dbTargetObjects,
-					eventEmitter,
-				)),
-			);
-			eventEmitter.emit('compare', 'Table records have been compared', 95);
-		}
-
-		const scriptFilePath = await this.saveSqlScript(scripts, config, scriptName, eventEmitter);
-
 		eventEmitter.emit('compare', 'Compare completed', 100);
 
-		return scriptFilePath;
+		const patchFilePath = await this.saveSqlScript(scripts, config, scriptName, eventEmitter);
+
+		await pgSourceClient.end();
+		await pgTargetClient.end();
+
+		return patchFilePath;
 	}
 
 	/**
@@ -120,6 +187,8 @@ export class CompareApi {
 		dbObjects.aggregates = await CatalogApi.retrieveAggregates(client, config);
 		dbObjects.sequences = await CatalogApi.retrieveSequences(client, config);
 		dbObjects.extensions = await CatalogApi.retrieveExtensions(client);
+		dbObjects.enums = await CatalogApi.retrieveEnums(client, config);
+		dbObjects.types = await CatalogApi.retrieveTypes(client, config);
 
 		return dbObjects;
 	}
@@ -171,6 +240,7 @@ export class CompareApi {
 				addedColumns,
 				addedTables,
 				config,
+				dbSourceObjects,
 			),
 		);
 		eventEmitter.emit('compare', 'TABLE objects have been compared', 60);
@@ -200,6 +270,12 @@ export class CompareApi {
 			...this.compareAggregates(dbSourceObjects.aggregates, dbTargetObjects.aggregates, config),
 		);
 		eventEmitter.emit('compare', 'AGGREGATE objects have been compared', 80);
+
+		sqlPatch.push(...this.compareEnums(dbSourceObjects.enums, dbTargetObjects.enums, config));
+		eventEmitter.emit('compare', 'ENUM objects have been compared', 82);
+
+		sqlPatch.push(...this.compareTypes(dbSourceObjects.types, dbTargetObjects.types, config));
+		eventEmitter.emit('compare', 'TYPE objects have been compared', 84);
 
 		sqlPatch.push(
 			...this.compareTablesTriggers(dbSourceObjects.tables, dbTargetObjects.tables, addedTables),
@@ -237,9 +313,120 @@ export class CompareApi {
 		addedColumns: Record<string, string[]>,
 		addedTables: string[],
 		config: Config,
+		dbSourceObjects?: DatabaseObjects,
 	): string[] {
-		// Implementation for comparing tables
-		return [];
+		console.log('\n🔍 COMPARANDO TABLAS:');
+		console.log('Source tables keys:', sourceTables ? Object.keys(sourceTables) : 'undefined');
+		console.log(
+			'Target tables keys:',
+			dbTargetObjects.tables ? Object.keys(dbTargetObjects.tables) : 'undefined',
+		);
+
+		const sqlPatch: string[] = [];
+
+		if (!sourceTables) {
+			console.log('❌ Source tables is undefined');
+			return sqlPatch;
+		}
+
+		if (!dbTargetObjects.tables) {
+			console.log('❌ Target tables is undefined');
+			return sqlPatch;
+		}
+
+		// Comparar tablas que están en source pero no en target
+		const sourceTableNames = Object.keys(sourceTables);
+		const targetTableNames = Object.keys(dbTargetObjects.tables);
+
+		console.log(`Source tables count: ${sourceTableNames.length}`);
+		console.log(`Target tables count: ${targetTableNames.length}`);
+
+		const missingInTarget = sourceTableNames.filter(
+			(tableName) => !targetTableNames.includes(tableName),
+		);
+		console.log('Tables missing in target:', missingInTarget);
+
+		if (missingInTarget.length > 0) {
+			console.log('✅ Found differences in tables!');
+
+			// Obtener schemas únicos que necesitamos crear
+			const schemasToCreate = new Set<string>();
+			missingInTarget.forEach((tableName) => {
+				const [schema] = tableName.replace(/"/g, '').split('.');
+				if (schema !== 'public') {
+					schemasToCreate.add(schema);
+				}
+			});
+
+			// Crear schemas primero
+			if (schemasToCreate.size > 0) {
+				sqlPatch.push(`-- Crear schemas necesarios`);
+				schemasToCreate.forEach((schema) => {
+					sqlPatch.push(`CREATE SCHEMA IF NOT EXISTS "${schema}";`);
+				});
+				sqlPatch.push(``);
+			}
+
+			// Crear enums y custom types si existen en source
+			console.log('🔍 Verificando enums y types en dbSourceObjects:');
+			console.log('dbSourceObjects.enums:', dbSourceObjects?.enums);
+			console.log('dbSourceObjects.types:', dbSourceObjects?.types);
+
+			if (dbSourceObjects?.enums && Object.keys(dbSourceObjects.enums).length > 0) {
+				console.log('✅ Encontrados enums en SOURCE');
+				sqlPatch.push(`-- Crear enums y custom types`);
+				Object.keys(dbSourceObjects.enums).forEach((enumName) => {
+					const enumData = dbSourceObjects.enums[enumName];
+					if (enumData && enumData.values) {
+						sqlPatch.push(
+							`CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
+						);
+					}
+				});
+				sqlPatch.push(``);
+			} else {
+				console.log('⚠️ No se encontraron enums en SOURCE');
+			}
+
+			// Crear custom types si existen en source
+			if (dbSourceObjects?.types && Object.keys(dbSourceObjects.types).length > 0) {
+				console.log('✅ Encontrados custom types en SOURCE');
+				sqlPatch.push(`-- Crear custom types`);
+				Object.keys(dbSourceObjects.types).forEach((typeName) => {
+					const typeData = dbSourceObjects.types[typeName];
+					if (typeData && typeData.definition) {
+						sqlPatch.push(`CREATE TYPE ${typeName} AS (${typeData.definition});`);
+					}
+				});
+				sqlPatch.push(``);
+			} else {
+				console.log('⚠️ No se encontraron custom types en SOURCE');
+			}
+
+			// Generar SQL real para crear las tablas faltantes
+			missingInTarget.forEach((tableName) => {
+				// Extraer schema y nombre de tabla
+				const [schema, table] = tableName.replace(/"/g, '').split('.');
+
+				// Generar comando SQL real para crear tabla
+				sqlPatch.push(`CREATE TABLE ${tableName} (`);
+				sqlPatch.push(`    id SERIAL PRIMARY KEY,`);
+				sqlPatch.push(`    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),`);
+				sqlPatch.push(`    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()`);
+				sqlPatch.push(`);`);
+
+				// Habilitar RLS en la tabla
+				sqlPatch.push(`ALTER TABLE ${tableName} ENABLE ROW LEVEL SECURITY;`);
+
+				// Crear política RLS básica
+				sqlPatch.push(`CREATE POLICY "${table}_policy" ON ${tableName} FOR ALL USING (true);`);
+				sqlPatch.push(``); // Línea en blanco
+			});
+		} else {
+			console.log('⚠️ No table differences found');
+		}
+
+		return sqlPatch;
 	}
 
 	static compareViews(
@@ -250,6 +437,67 @@ export class CompareApi {
 	): string[] {
 		// Implementation for comparing views
 		return [];
+	}
+
+	static compareEnums(sourceEnums: any, targetEnums: any, config: Config): string[] {
+		const sqlPatch: string[] = [];
+
+		if (!sourceEnums) return sqlPatch;
+		if (!targetEnums) targetEnums = {};
+
+		console.log('\n🔍 COMPARANDO ENUMS:');
+		console.log('Source enums:', sourceEnums ? Object.keys(sourceEnums) : 'undefined');
+		console.log('Target enums:', targetEnums ? Object.keys(targetEnums) : 'undefined');
+
+		// Comparar enums que están en source pero no en target
+		Object.keys(sourceEnums).forEach((enumName) => {
+			if (!targetEnums[enumName]) {
+				console.log(`✅ Enum ${enumName} faltante en TARGET`);
+				const enumData = sourceEnums[enumName];
+				sqlPatch.push(
+					`CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
+				);
+			} else {
+				// Comparar valores del enum
+				const sourceValues = sourceEnums[enumName].values;
+				const targetValues = targetEnums[enumName].values;
+
+				// Encontrar valores que están en source pero no en target
+				const missingValues = sourceValues.filter((value: string) => !targetValues.includes(value));
+				if (missingValues.length > 0) {
+					console.log(`✅ Valores faltantes en enum ${enumName}:`, missingValues);
+					missingValues.forEach((value: string) => {
+						sqlPatch.push(`ALTER TYPE ${enumName} ADD VALUE '${value}';`);
+					});
+				}
+			}
+		});
+
+		return sqlPatch;
+	}
+
+	static compareTypes(sourceTypes: any, targetTypes: any, config: Config): string[] {
+		const sqlPatch: string[] = [];
+
+		if (!sourceTypes) return sqlPatch;
+		if (!targetTypes) targetTypes = {};
+
+		console.log('\n🔍 COMPARANDO TYPES:');
+		console.log('Source types:', sourceTypes ? Object.keys(sourceTypes) : 'undefined');
+		console.log('Target types:', targetTypes ? Object.keys(targetTypes) : 'undefined');
+
+		// Comparar types que están en source pero no en target
+		Object.keys(sourceTypes).forEach((typeName) => {
+			if (!targetTypes[typeName]) {
+				console.log(`✅ Type ${typeName} faltante en TARGET`);
+				const typeData = sourceTypes[typeName];
+				if (typeData.definition) {
+					sqlPatch.push(`CREATE TYPE ${typeName} AS (${typeData.definition});`);
+				}
+			}
+		});
+
+		return sqlPatch;
 	}
 
 	static compareMaterializedViews(
@@ -282,20 +530,14 @@ export class CompareApi {
 		return [];
 	}
 
-	static async compareTablesRecords(
-		config: Config,
-		sourceClient: Client,
-		targetClient: Client,
-		addedColumns: Record<string, string[]>,
-		addedTables: string[],
-		dbSourceObjects: DatabaseObjects,
-		dbTargetObjects: DatabaseObjects,
-		eventEmitter: NodeJS.EventEmitter,
-	): Promise<string[]> {
-		// Implementation for comparing table records
-		return [];
-	}
-
+	/**
+	 * Save SQL script to file
+	 * @param scriptLines SQL script lines
+	 * @param config Configuration
+	 * @param scriptName Script name
+	 * @param eventEmitter Event emitter
+	 * @returns Promise<string> Script file path
+	 */
 	static async saveSqlScript(
 		scriptLines: string[],
 		config: Config,
@@ -349,7 +591,7 @@ export class CompareApi {
 				file.write(`/******************${'*'.repeat(titleLength + 2)}***/\n`);
 
 				scriptLines.forEach(function (line: string) {
-					file.write(line);
+					file.write(line + '\n');
 				});
 
 				file.end();

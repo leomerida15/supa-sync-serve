@@ -1,5 +1,4 @@
 import { Command } from 'commander';
-import { select } from '@inquirer/prompts';
 
 export const initCommand = new Command('init')
 	.description('Initialize sync configuration')

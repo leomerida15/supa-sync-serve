@@ -1,38 +1,16 @@
-import * as chalk from 'chalk';
-import * as figlet from 'figlet';
+import chalk from 'chalk';
 import * as path from 'path';
 import * as inquirer from '@inquirer/prompts';
 import * as fs from 'fs';
-import { PackageJson, GeneratedConfig } from '../api/types';
+import { GeneratedConfig } from '../api/types';
 
 const log = console.log;
 
 export class CLI {
 	/**
-	 * Print initial CLI information
-	 * @param pjson The package json
-	 */
-	static PrintIntro(pjson: PackageJson): void {
-		log(chalk.yellow(figlet.textSync(pjson.name, { horizontalLayout: 'full' })));
-		log();
-		log(chalk.blue('     Author: ') + chalk.green(pjson.author));
-		log(chalk.blue('    Version: ') + chalk.green(pjson.version));
-		log(chalk.blue(' PostgreSQL: ') + chalk.green(pjson.pgver));
-		log(chalk.blue('    License: ') + chalk.green(pjson.license));
-		log(chalk.blue('Description: ') + chalk.green(pjson.description));
-		log();
-	}
-
-	/**
 	 * Print help documentation
 	 */
 	static PrintHelp(): void {
-		log();
-		log();
-		log(chalk.magenta('=============================='));
-		log(chalk.magenta('===   pg-diff-cli   HELP   ==='));
-		log(chalk.magenta('=============================='));
-		log();
 		log(chalk.gray('OPTION                      \t\tDESCRIPTION'));
 		log(chalk.green('-h,  --help                \t\t') + chalk.blue('To show this help.'));
 		log(

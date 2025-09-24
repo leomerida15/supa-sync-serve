@@ -162,6 +162,110 @@ export class CatalogApi {
 		// Implementation for retrieving extensions
 		return {};
 	}
+
+	/**
+	 * Retrieve enums from database
+	 * @param client PostgreSQL client
+	 * @param config Configuration
+	 * @returns Promise<Record<string, any>> Enum definitions
+	 */
+	static async retrieveEnums(client: Client, config: Config): Promise<Record<string, any>> {
+		const enums: Record<string, any> = {};
+
+		if (
+			!config.compareOptions.schemaCompare.namespaces ||
+			config.compareOptions.schemaCompare.namespaces.length === 0
+		) {
+			return enums;
+		}
+
+		const namespaces = Array.isArray(config.compareOptions.schemaCompare.namespaces)
+			? config.compareOptions.schemaCompare.namespaces
+			: [config.compareOptions.schemaCompare.namespaces];
+
+		for (const namespace of namespaces) {
+			const result = await client.query(
+				`
+				SELECT 
+					t.typname as enum_name,
+					e.enumlabel as enum_value
+				FROM pg_type t
+				JOIN pg_enum e ON t.oid = e.enumtypid
+				JOIN pg_namespace n ON n.oid = t.typnamespace
+				WHERE n.nspname = $1
+				ORDER BY t.typname, e.enumsortorder
+			`,
+				[namespace],
+			);
+
+			result.rows.forEach((row: any) => {
+				const enumName = `"${namespace}"."${row.enum_name}"`;
+				if (!enums[enumName]) {
+					enums[enumName] = {
+						name: row.enum_name,
+						schema: namespace,
+						values: [],
+					};
+				}
+				enums[enumName].values.push(row.enum_value);
+			});
+		}
+
+		return enums;
+	}
+
+	/**
+	 * Retrieve custom types from database
+	 * @param client PostgreSQL client
+	 * @param config Configuration
+	 * @returns Promise<Record<string, any>> Custom type definitions
+	 */
+	static async retrieveTypes(client: Client, config: Config): Promise<Record<string, any>> {
+		const types: Record<string, any> = {};
+
+		if (
+			!config.compareOptions.schemaCompare.namespaces ||
+			config.compareOptions.schemaCompare.namespaces.length === 0
+		) {
+			return types;
+		}
+
+		const namespaces = Array.isArray(config.compareOptions.schemaCompare.namespaces)
+			? config.compareOptions.schemaCompare.namespaces
+			: [config.compareOptions.schemaCompare.namespaces];
+
+		for (const namespace of namespaces) {
+			const result = await client.query(
+				`
+				SELECT 
+					t.typname as type_name,
+					t.typtype as type_type,
+					t.typcategory as type_category,
+					pg_catalog.format_type(t.oid, NULL) as type_definition
+				FROM pg_type t
+				JOIN pg_namespace n ON n.oid = t.typnamespace
+				WHERE n.nspname = $1
+					AND t.typtype IN ('c', 'd') -- 'c' for composite, 'd' for domain
+					AND t.typname NOT LIKE '_%' -- Exclude system types
+				ORDER BY t.typname
+			`,
+				[namespace],
+			);
+
+			result.rows.forEach((row: any) => {
+				const typeName = `"${namespace}"."${row.type_name}"`;
+				types[typeName] = {
+					name: row.type_name,
+					schema: namespace,
+					type: row.type_type,
+					category: row.type_category,
+					definition: row.type_definition,
+				};
+			});
+		}
+
+		return types;
+	}
 }
 
 export default CatalogApi;

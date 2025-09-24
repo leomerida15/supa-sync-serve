@@ -1,9 +1,8 @@
 import { Command } from 'commander';
 
-import { join, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { Entorno } from '../../types/config.types';
-import { Client } from 'pg';
 import { DbManager } from './utils/dbManager';
 
 export const getConfig = (key: string) => {
@@ -32,7 +31,3 @@ export const syncCommand = new Command('sync')
 			process.exit(1);
 		}
 	});
-
-async function initializeSync(): Promise<void> {
-	console.log('Sync configuration initialization completed.');
-}

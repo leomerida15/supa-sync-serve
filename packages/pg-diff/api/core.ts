@@ -254,6 +254,62 @@ export class Core {
 		else if (authorEmail) return `${authorName} (${authorEmail})`;
 		else return authorName;
 	}
+
+	/**
+	 * Analyze database schemas and tables
+	 * @param sourceClient Source database client
+	 * @param targetClient Target database client
+	 */
+	static async analyzeDatabases(sourceClient: Client, targetClient: Client): Promise<void> {
+		try {
+			console.log('\n🔍 ANALIZANDO BASES DE DATOS...\n');
+
+			// Función para obtener estadísticas de una base de datos
+			async function getDatabaseStats(client: Client, dbName: string) {
+				const schemasQuery = `
+					SELECT 
+						table_schema,
+						COUNT(*) as table_count
+					FROM information_schema.tables 
+					WHERE table_schema IN ('public', 'knowledge', 'ai')
+					GROUP BY table_schema
+					ORDER BY table_schema;
+				`;
+
+				const result = await client.query(schemasQuery);
+				const totalTables = result.rows.reduce((sum, row) => sum + parseInt(row.table_count), 0);
+
+				console.log(`📊 ${dbName}:`);
+				console.log(`   Total de tablas: ${totalTables}`);
+				result.rows.forEach((row) => {
+					console.log(`   - ${row.table_schema}: ${row.table_count} tablas`);
+				});
+
+				return { totalTables, schemas: result.rows };
+			}
+
+			const sourceStats = await getDatabaseStats(sourceClient, 'SOURCE (dev)');
+			const targetStats = await getDatabaseStats(targetClient, 'TARGET (qa)');
+
+			console.log('\n📈 RESUMEN:');
+			console.log(
+				`   SOURCE: ${sourceStats.totalTables} tablas en ${sourceStats.schemas.length} schemas`,
+			);
+			console.log(
+				`   TARGET: ${targetStats.totalTables} tablas en ${targetStats.schemas.length} schemas`,
+			);
+
+			if (sourceStats.totalTables === 0 && targetStats.totalTables === 0) {
+				console.log('\n⚠️  AMBAS BASES DE DATOS ESTÁN VACÍAS');
+			} else if (sourceStats.totalTables === targetStats.totalTables) {
+				console.log('\n⚠️  NO HAY DIFERENCIAS EN EL NÚMERO DE TABLAS');
+			} else {
+				console.log('\n✅ HAY DIFERENCIAS DETECTADAS');
+			}
+		} catch (error) {
+			console.error('❌ Error al analizar bases de datos:', error);
+		}
+	}
 }
 
 export default Core;

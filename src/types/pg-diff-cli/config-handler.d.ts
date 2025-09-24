@@ -1,5 +1,5 @@
 import { PgDiffConfig } from './config';
-import { OptionType } from './enums';
+export type { OptionType } from './enums';
 
 /**
  * Map type for option parameters

@@ -23,7 +23,7 @@
 			"getAuthorFromGit": true,
 			"outputDirectory": "db_migration",
 			"schemaCompare": {
-				"namespaces": ["public", "knowledge"],
+				"namespaces": ["public", "knowledge", "ai"],
 				"dropMissingTable": false,
 				"dropMissingView": false,
 				"dropMissingFunction": false,

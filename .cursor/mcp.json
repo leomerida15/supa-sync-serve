@@ -15,7 +15,10 @@
 		"gobernai-qa": {
 			"command": "bunx",
 			"args": [
-				"-y @supabase/mcp-server-supabase@latest --read-only --project-ref=yvztwadvzlapiqjkmabb"
+				"-y",
+				"@supabase/mcp-server-supabase@latest",
+				"--read-only",
+				"--project-ref=yvztwadvzlapiqjkmabb"
 			],
 			"env": {
 				"SUPABASE_ACCESS_TOKEN": "sbp_a2ba542aca5859350891b52cfeb590c4516f6bb9"

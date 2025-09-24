@@ -2,41 +2,27 @@
 import { CLI } from './CLI';
 import ConfigHandler from './ConfigHandler';
 import { PgDiff as PgDiffApi } from '../api/index';
-import { Actions } from '../api/types';
 import chalk from 'chalk';
 import { Progress } from 'clui';
-import stdout from 'readline';
+import * as stdout from 'readline';
 const log = console.log;
 import actions from './enums/actions';
 import options from './enums/options';
 
 //pgTypes.setTypeParser(1114, value => new Date(Date.parse(`${value}+0000`)));
 
-CLI.PrintIntro({
-	name: 'pg-diff',
-	version: '1.0.0',
-	description: 'A tool to compare and sync databases',
-	author: '',
-	pgver: '',
-	license: '',
-});
-
-Run()
-	.then(() => {
-		process.exitCode = 0;
-		process.exit();
-	})
-	.catch((err) => {
-		HandleError(err);
-		process.exitCode = -1;
-		process.exit();
-	});
-
+class ErrorCustom extends Error {
+	code?: string;
+	constructor(message: string, code?: string) {
+		super(message);
+		this.code = code;
+	}
+}
 /**
  *
  * @param {Error} e
  */
-function HandleError(e: Error, nostack = false) {
+function HandleError(e: ErrorCustom, nostack = false) {
 	log();
 	if (!nostack) log(chalk.red(e.stack));
 	if (!nostack) process.stderr.write(e.message);
@@ -59,7 +45,7 @@ function HandleError(e: Error, nostack = false) {
  * @param {String} lastAction
  * @param {String} currentAction
  */
-function CheckDoubleActionError(lastAction: Actions | null, currentAction: string) {
+function CheckDoubleActionError(lastAction: string | null, currentAction: string) {
 	if (lastAction) {
 		HandleError(
 			new Error(
@@ -194,7 +180,7 @@ export async function Run() {
 				let progressBar = new Progress(20);
 				let pgDiff = new PgDiffApi(config);
 				pgDiff.events.on('compare', function (message, percentage) {
-					stdout.clearLine(process.stdout);
+					stdout.clearLine(process.stdout, 0);
 					stdout.cursorTo(process.stdout, 0);
 					process.stdout.write(
 						progressBar.update(percentage / 100) + ' - ' + chalk.whiteBright(message),
@@ -251,7 +237,7 @@ export async function Run() {
 				let progressBar = new Progress(20);
 				let pgDiff = new PgDiffApi(config);
 				pgDiff.events.on('migrate', function (message, percentage) {
-					stdout.clearLine(process.stdout);
+					stdout.clearLine(process.stdout, 0);
 					stdout.cursorTo(process.stdout, 0);
 					process.stdout.write(
 						progressBar.update(percentage / 100) + ' - ' + chalk.whiteBright(message),
