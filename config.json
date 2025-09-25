@@ -43,5 +43,50 @@
 			"historyTableName": "schema_migrations",
 			"historyTableSchema": "supabase_migrations"
 		}
+	},
+	"GobernAI-Lab.sync.config": {
+		"sourceClient": {
+			"host": "aws-0-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.qklwlyoenlffxnwrkxuc",
+			"password": "Kw07OePOyVZKRHjy",
+			"applicationName": "GobernAI dev",
+			"ssl": false
+		},
+		"targetClient": {
+			"host": "aws-1-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.jmgyobefhcwlxknsynlx",
+			"password": "y29HDYyk35iXblf1",
+			"applicationName": "GobernAI QA",
+			"ssl": false
+		},
+		"compareOptions": {
+			"author": "Dimas Merida",
+			"getAuthorFromGit": true,
+			"outputDirectory": "migration-dev-to-qa",
+			"schemaCompare": {
+				"namespaces": ["public", "knowledge", "ai"],
+				"dropMissingTable": false,
+				"dropMissingView": false,
+				"dropMissingFunction": false,
+				"dropMissingAggregate": false,
+				"dropMissingType": false,
+				"dropMissingEnum": false,
+				"roles": [],
+				"rowLevelSecurity": true
+			},
+			"dataCompare": {
+				"enable": false,
+				"tables": []
+			}
+		},
+		"migrationOptions": {
+			"patchesDirectory": "db_migration",
+			"historyTableName": "schema_migrations",
+			"historyTableSchema": "supabase_migrations"
+		}
 	}
 }
