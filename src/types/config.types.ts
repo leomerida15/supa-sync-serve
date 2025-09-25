@@ -34,6 +34,7 @@ interface MigrationOptions {
 	patchesDirectory: string;
 	historyTableName: string;
 	historyTableSchema: string;
+	seeds: string;
 }
 
 export interface Entorno {

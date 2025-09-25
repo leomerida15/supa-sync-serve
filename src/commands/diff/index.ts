@@ -30,6 +30,8 @@ export const diffCommand = new Command('diff')
 		'To save\\register patch on migration history table without executing the script',
 	)
 	.option('-g, --generate-config [filename]', 'To generate a new config file')
+	.option('--seed-to-source', 'To run seeds applying all seed files to SOURCE CLIENT')
+	.option('--seed-to-target', 'To run seeds applying all seed files to TARGET CLIENT')
 
 	.action(async (options, command) => {
 		try {
@@ -98,6 +100,28 @@ export const diffCommand = new Command('diff')
 					args.push(options.generateConfig);
 				}
 			}
+			// Add seed to source flag if specified
+			else if (options.seedToSource) {
+				args.push('--seed-to-source');
+				// Add remaining argument for seed to source (configName)
+				if (remainingArgs.length >= 1) {
+					args.push(remainingArgs[0]);
+				} else {
+					console.error('Error: Seed to source command requires 1 argument: configName');
+					process.exit(1);
+				}
+			}
+			// Add seed to target flag if specified
+			else if (options.seedToTarget) {
+				args.push('--seed-to-target');
+				// Add remaining argument for seed to target (configName)
+				if (remainingArgs.length >= 1) {
+					args.push(remainingArgs[0]);
+				} else {
+					console.error('Error: Seed to target command requires 1 argument: configName');
+					process.exit(1);
+				}
+			}
 
 			// Add config file if specified (always after main action)
 			if (options.configFile) {
@@ -114,15 +138,23 @@ export const diffCommand = new Command('diff')
 				args.push('--help');
 			}
 
-			// Store original process.argv and replace with our constructed arguments
-			const originalArgv = process.argv;
-			process.argv = ['node', 'diff-supa', ...args];
+			// Handle seed commands separately from pg-diff-cli
+			if (options.seedToSource || options.seedToTarget) {
+				const { executeSeeds } = await import('../seeds/index');
+				const configName = remainingArgs[0];
+				const target = options.seedToSource ? 'source' : 'target';
+				await executeSeeds(configName, target, options.configFile);
+			} else {
+				// Store original process.argv and replace with our constructed arguments
+				const originalArgv = process.argv;
+				process.argv = ['node', 'diff-supa', ...args];
 
-			// Execute the local CLI code from @cli/
-			await Run();
+				// Execute the local CLI code from @cli/
+				await Run();
 
-			// Restore original process.argv
-			process.argv = originalArgv;
+				// Restore original process.argv
+				process.argv = originalArgv;
+			}
 
 			// Matar la consola al finalizar el análisis
 			console.log('\n🏁 ANÁLISIS COMPLETADO - CERRANDO CONSOLA...');
