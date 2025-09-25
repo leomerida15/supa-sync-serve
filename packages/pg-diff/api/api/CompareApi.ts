@@ -532,7 +532,7 @@ export class CompareApi {
 					`    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '${enumData.name}' AND typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = '${enumData.schema}')) THEN`,
 				);
 				sqlPatch.push(
-					`        CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v) => `'${v}'`).join(', ')});`,
+					`        CREATE TYPE ${enumName} AS ENUM (${enumData.values.map((v: string) => `'${v}'`).join(', ')});`,
 				);
 				sqlPatch.push(`    END IF;`);
 				sqlPatch.push(`END $$;`);

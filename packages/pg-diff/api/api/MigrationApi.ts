@@ -230,6 +230,7 @@ export class MigrationApi {
 				let readLines = 0;
 				let commandExecuted = 0;
 				let patchError: Error | null = null;
+				let fullFileContent = ''; // Para capturar todo el contenido del archivo
 
 				const patchScript: PatchInfo = { ...patchFileInfo };
 				patchScript.command = '';
@@ -241,6 +242,13 @@ export class MigrationApi {
 
 				reader.on('line', function (line: string) {
 					readLines += 1;
+					fullFileContent += line + '\n'; // Capturar cada línea
+
+					// Debug: mostrar las primeras líneas
+					if (readLines <= 5) {
+						console.log(`📄 Línea ${readLines}:`, line.substring(0, 50));
+					}
+
 					if (readingBlock) {
 						if (line.trim() === 'END $$;') {
 							patchScript.command += `${line}\n`;
@@ -271,6 +279,18 @@ export class MigrationApi {
 				});
 
 				reader.on('end', function () {
+					// PRIMERO: Procesar el contenido del archivo para statements
+					console.log('🎯 Llegando a la parte de procesamiento del archivo...');
+					console.log('📝 Contenido completo del archivo:');
+					console.log('Longitud:', fullFileContent.length);
+					console.log('Primeros 200 caracteres:', fullFileContent.substring(0, 200));
+
+					console.log('🔧 Llamando a splitContentIntoChunks...');
+					patchScript.statements = self.splitContentIntoChunks(fullFileContent.trim());
+					console.log('📦 Chunks generados:', patchScript.statements.length);
+					console.log('Primer chunk:', patchScript.statements[0]?.substring(0, 100));
+
+					// SEGUNDO: Verificar si hay errores de ejecución
 					if (readLines <= 0) {
 						patchError = new Error(
 							`The patch "${patchFileInfo.name}" version "${patchFileInfo.version}" is empty!`,
@@ -282,12 +302,36 @@ export class MigrationApi {
 					}
 
 					if (patchError) {
-						reject(patchError);
+						// Aunque haya error, registrar el parche en el historial
+						console.log('⚠️ Error en ejecución, pero registrando en historial...');
+						patchScript.status = patchStatus.DONE;
+						patchScript.message = patchError.message;
+						patchScript.command = '';
+
+						self
+							.addRecordToHistoryTable(pgClient, patchScript, config)
+							.then(() => {
+								reject(patchError);
+							})
+							.catch((err) => {
+								console.error('Error al registrar parche en historial:', err);
+								reject(patchError);
+							});
 					} else {
 						patchScript.status = patchStatus.DONE;
 						patchScript.message = '';
 						patchScript.command = '';
-						resolve(patchScript);
+
+						// Registrar el parche como completado en la tabla de historial
+						self
+							.addRecordToHistoryTable(pgClient, patchScript, config)
+							.then(() => {
+								resolve(patchScript);
+							})
+							.catch((err) => {
+								console.error('Error al registrar parche en historial:', err);
+								resolve(patchScript); // Continuar aunque falle el registro
+							});
 					}
 				});
 			} catch (e) {
@@ -345,19 +389,18 @@ export class MigrationApi {
 		patchScript: PatchInfo,
 		config: MigrationConfig,
 	): Promise<void> {
-		const changes = {
-			status: patchScript.status,
-			last_message: patchScript.message,
-			applied_on: new Date(),
-		};
+		const changes: any = {};
 
-		if (patchScript.status !== patchStatus.ERROR) {
-			(changes as any).script = patchScript.command;
+		// Solo actualizar campos que existen en la nueva estructura
+		if (patchScript.statements) {
+			changes.statements = patchScript.statements;
+		}
+		if (patchScript.author) {
+			changes.author = patchScript.author;
 		}
 
 		const filterConditions = {
 			version: patchScript.version,
-			name: patchScript.name,
 		};
 
 		const command = sql.generateUpdateTableRecordScript(
@@ -384,15 +427,20 @@ export class MigrationApi {
 		const changes = {
 			version: patchFileInfo.version,
 			name: patchFileInfo.name,
-			status: patchFileInfo.status || patchStatus.TO_APPLY,
-			last_message: '',
-			script: '',
-			applied_on: null,
+			statements: patchFileInfo.statements || [],
+			author: patchFileInfo.author || 'system',
 		};
 
 		const options = {
 			constraintName: config.migrationHistory.primaryKeyName,
 		};
+
+		console.log('tableColumns:', config.migrationHistory.tableColumns);
+		console.log('changes:', changes);
+		console.log(
+			'availableColumns:',
+			config.migrationHistory.tableColumns.map((col) => col.column_name || col.name),
+		);
 
 		const command = sql.generateMergeTableRecord(
 			config.migrationHistory.fullTableName,
@@ -400,7 +448,63 @@ export class MigrationApi {
 			changes,
 			options,
 		);
+
+		console.log('command', command);
 		await pgClient.query(command);
+	}
+
+	/**
+	 * Split content into chunks for statements array
+	 * @param content Full file content
+	 * @returns Array of text chunks
+	 */
+	static splitContentIntoChunks(content: string): string[] {
+		const chunks: string[] = [];
+		const maxChunkSize = 1000; // Tamaño máximo de cada chunk
+
+		console.log('🔧 Iniciando división de contenido...');
+		console.log('Contenido recibido:', content.substring(0, 100));
+
+		// Dividir por bloques DO $$ para mantener la integridad
+		const doBlocks = content.split(/(?=DO \$\$)/g);
+		console.log('Bloques DO $$ encontrados:', doBlocks.length);
+
+		for (let i = 0; i < doBlocks.length; i++) {
+			const block = doBlocks[i];
+			console.log(`Bloque ${i + 1}:`, block.substring(0, 50));
+
+			if (block.trim()) {
+				// Si el bloque es muy grande, dividirlo en chunks más pequeños
+				if (block.length > maxChunkSize) {
+					console.log(`Bloque ${i + 1} es muy grande (${block.length} chars), dividiendo...`);
+					const lines = block.split('\n');
+					let currentChunk = '';
+
+					for (const line of lines) {
+						if (currentChunk.length + line.length + 1 > maxChunkSize && currentChunk.trim()) {
+							chunks.push(currentChunk.trim());
+							currentChunk = line + '\n';
+						} else {
+							currentChunk += line + '\n';
+						}
+					}
+
+					if (currentChunk.trim()) {
+						chunks.push(currentChunk.trim());
+					}
+				} else {
+					console.log(`Bloque ${i + 1} agregado como chunk completo`);
+					chunks.push(block.trim());
+				}
+			}
+		}
+
+		console.log('📦 Total de chunks generados:', chunks.length);
+		chunks.forEach((chunk, index) => {
+			console.log(`Chunk ${index + 1}:`, chunk.substring(0, 50));
+		});
+
+		return chunks;
 	}
 }
 

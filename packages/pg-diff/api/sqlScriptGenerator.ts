@@ -44,13 +44,13 @@ export function generateCreateTableScript(
 	if (tableDefinition.privileges) {
 		for (const [role, privileges] of Object.entries(tableDefinition.privileges)) {
 			const privilegeList = [];
-			if (privileges.select) privilegeList.push('SELECT');
-			if (privileges.insert) privilegeList.push('INSERT');
-			if (privileges.update) privilegeList.push('UPDATE');
-			if (privileges.delete) privilegeList.push('DELETE');
-			if (privileges.truncate) privilegeList.push('TRUNCATE');
-			if (privileges.references) privilegeList.push('REFERENCES');
-			if (privileges.trigger) privilegeList.push('TRIGGER');
+			if ((privileges as any).select) privilegeList.push('SELECT');
+			if ((privileges as any).insert) privilegeList.push('INSERT');
+			if ((privileges as any).update) privilegeList.push('UPDATE');
+			if ((privileges as any).delete) privilegeList.push('DELETE');
+			if ((privileges as any).truncate) privilegeList.push('TRUNCATE');
+			if ((privileges as any).references) privilegeList.push('REFERENCES');
+			if ((privileges as any).trigger) privilegeList.push('TRIGGER');
 
 			if (privilegeList.length > 0) {
 				sql += `GRANT ${privilegeList.join(', ')} ON ${fullTableName} TO "${role}";\n`;
@@ -374,8 +374,32 @@ export function generateMergeTableRecord(
 	changes: any,
 	options: any,
 ): string {
-	// Implementation for generating MERGE script
-	return `-- MERGE ${tableName} script\n`;
+	// Generate INSERT ... ON CONFLICT DO UPDATE (UPSERT)
+	// Filter out columns that don't exist in the table
+	const availableColumns = tableColumns.map((col) => col.column_name || col.name);
+	const columns = Object.keys(changes).filter((col) => availableColumns.includes(col));
+
+	const values = columns
+		.map((col) => {
+			const value = changes[col];
+			if (Array.isArray(value)) {
+				// Escapar comillas simples en cada elemento del array
+				return `ARRAY[${value.map((v) => `'${v.replace(/'/g, "''")}'`).join(',')}]::text[]`;
+			}
+			// Escapar comillas simples en strings simples
+			return `'${String(value).replace(/'/g, "''")}'`;
+		})
+		.join(', ');
+
+	const setClause = columns
+		.filter((col) => col !== 'version') // Use 'version' as the primary key column name
+		.map((col) => `${col} = EXCLUDED.${col}`)
+		.join(', ');
+
+	return `INSERT INTO ${tableName} (${columns.join(', ')}) 
+VALUES (${values})
+ON CONFLICT (version) 
+DO UPDATE SET ${setClause};`;
 }
 
 export default {

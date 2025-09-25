@@ -1,7 +1,18 @@
 /************************************************************/
 /*** SCRIPT AUTHOR: leomerida15 (dimasmerida15@gmail.com) ***/
-/***    CREATED ON: 2025-09-25T02:22:31.346Z              ***/
+/***    CREATED ON: 2025-09-25T03:46:16.828Z              ***/
 /************************************************************/
+DO $$
+BEGIN
+CREATE SCHEMA IF NOT EXISTS "knowledge";
+END $$;
+
+DO $$
+BEGIN
+CREATE SCHEMA IF NOT EXISTS "ai";
+END $$;
+
+
 -- Crear enum "public"."effect_category" si no existe
 DO $$
 BEGIN

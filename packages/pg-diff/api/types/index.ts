@@ -59,6 +59,8 @@ export interface PatchInfo {
 	status?: string;
 	message?: string;
 	command?: string;
+	statements?: string[];
+	author?: string;
 }
 
 export interface ServerVersion {

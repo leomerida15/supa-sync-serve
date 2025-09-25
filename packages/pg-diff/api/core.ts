@@ -102,7 +102,79 @@ export class Core {
 			console.log('✅ Tabla de historial creada');
 		} else {
 			console.log('✅ Tabla de historial ya existe');
+
+			// Verificar y agregar columnas faltantes
+			await this.addMissingColumns(pgClient, config);
 		}
+	}
+
+	/**
+	 * Add missing columns to the migration history table
+	 * @param pgClient PostgreSQL client
+	 * @param config Migration configuration
+	 */
+	static async addMissingColumns(pgClient: Client, config: MigrationConfig): Promise<void> {
+		console.log('🔍 Verificando columnas faltantes...');
+
+		// Obtener columnas existentes en la tabla
+		const existingColumnsResult = await pgClient.query(
+			`
+			SELECT column_name, data_type, is_nullable, column_default
+			FROM information_schema.columns 
+			WHERE table_schema = $1 AND table_name = $2
+			ORDER BY ordinal_position;
+		`,
+			[config.migrationHistory.tableSchema, config.migrationHistory.tableName],
+		);
+
+		const existingColumns = existingColumnsResult.rows.map((row) => row.column_name);
+		console.log(`   Columnas existentes: ${existingColumns.join(', ')}`);
+
+		// Definir las columnas esperadas según el schema
+		const expectedColumns = Object.keys(migrationHistoryTableSchema.columns);
+		console.log(`   Columnas esperadas: ${expectedColumns.join(', ')}`);
+
+		// Encontrar columnas faltantes
+		const missingColumns = expectedColumns.filter((col) => !existingColumns.includes(col));
+
+		if (missingColumns.length === 0) {
+			console.log('✅ Todas las columnas están presentes');
+			return;
+		}
+
+		console.log(
+			`🔧 Agregando ${missingColumns.length} columnas faltantes: ${missingColumns.join(', ')}`,
+		);
+
+		// Agregar cada columna faltante
+		for (const columnName of missingColumns) {
+			const columnDef = migrationHistoryTableSchema.columns[columnName];
+			let columnType = columnDef.datatype;
+
+			// Ajustar el tipo de datos según la categoría
+			if (columnDef.dataTypeCategory === 'A') {
+				columnType = 'text[]';
+			}
+
+			const nullable = columnDef.nullable ? '' : 'NOT NULL';
+			const defaultValue = columnDef.nullable ? '' : columnName === 'version' ? '' : 'DEFAULT NULL';
+
+			const alterQuery = `
+				ALTER TABLE "${config.migrationHistory.tableSchema}"."${config.migrationHistory.tableName}" 
+				ADD COLUMN "${columnName}" ${columnType} ${nullable} ${defaultValue};
+			`.trim();
+
+			try {
+				console.log(`   Agregando columna: ${columnName} (${columnType})`);
+				await pgClient.query(alterQuery);
+				console.log(`   ✅ Columna ${columnName} agregada`);
+			} catch (error) {
+				console.error(`   ❌ Error agregando columna ${columnName}:`, error);
+				// Continuar con las demás columnas aunque una falle
+			}
+		}
+
+		console.log('✅ Verificación de columnas completada');
 	}
 
 	/**
