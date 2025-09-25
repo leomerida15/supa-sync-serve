@@ -3,33 +3,23 @@ export const migrationHistoryTableSchema = {
 	columns: {
 		version: {
 			dataTypeCategory: 'S',
-			datatype: 'varchar',
+			datatype: 'text',
 			nullable: false,
+		},
+		statements: {
+			dataTypeCategory: 'A',
+			datatype: 'text[]',
+			nullable: true,
 		},
 		name: {
 			dataTypeCategory: 'S',
-			datatype: 'varchar',
-			nullable: false,
-		},
-		status: {
-			dataTypeCategory: 'S',
-			datatype: 'varchar',
-			nullable: false,
-		},
-		last_message: {
-			dataTypeCategory: 'S',
 			datatype: 'text',
 			nullable: true,
 		},
-		script: {
+		author: {
 			dataTypeCategory: 'S',
 			datatype: 'text',
-			nullable: true,
-		},
-		applied_on: {
-			dataTypeCategory: 'D',
-			datatype: 'timestamp',
-			nullable: true,
+			nullable: false,
 		},
 	},
 	constraints: {},

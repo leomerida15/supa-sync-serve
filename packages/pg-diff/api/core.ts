@@ -54,29 +54,55 @@ export class Core {
 		pgClient: Client,
 		config: MigrationConfig,
 	): Promise<void> {
-		(migrationHistoryTableSchema.constraints as any)[config.migrationHistory.primaryKeyName] = {
-			type: 'p',
-			definition: 'PRIMARY KEY ("version")',
-		};
+		console.log('🔧 Preparando tabla de historial de migraciones...');
+		console.log(`   Esquema: ${config.migrationHistory.tableSchema}`);
+		console.log(`   Tabla: ${config.migrationHistory.tableName}`);
 
-		(migrationHistoryTableSchema.privileges as any)[config.migrationHistory.tableOwner] = {
-			select: true,
-			insert: true,
-			update: true,
-			delete: true,
-			truncate: true,
-			references: true,
-			trigger: true,
-		};
+		// Crear esquema si no existe
+		await pgClient.query(`CREATE SCHEMA IF NOT EXISTS "${config.migrationHistory.tableSchema}";`);
+		console.log('✅ Esquema creado/verificado');
 
-		migrationHistoryTableSchema.owner = config.migrationHistory.tableOwner;
-
-		const sqlScript = sql.generateCreateTableScript(
-			config.migrationHistory.tableName,
-			migrationHistoryTableSchema,
-			config,
+		// Verificar si la tabla ya existe
+		const tableExistsResult = await pgClient.query(
+			`
+			SELECT EXISTS (
+				SELECT 1 FROM information_schema.tables 
+				WHERE table_schema = $1 AND table_name = $2
+			);
+		`,
+			[config.migrationHistory.tableSchema, config.migrationHistory.tableName],
 		);
-		await pgClient.query(sqlScript);
+
+		const tableExists = tableExistsResult.rows[0].exists;
+		console.log(`   Tabla existe: ${tableExists}`);
+
+		// Si la tabla no existe, crearla
+		if (!tableExists) {
+			console.log('🔨 Creando tabla de historial...');
+
+			(migrationHistoryTableSchema.constraints as any)[config.migrationHistory.primaryKeyName] = {
+				type: 'p',
+				definition: 'PRIMARY KEY ("version")',
+			};
+
+			// No asignar owner ni privilegios para evitar errores de roles
+			migrationHistoryTableSchema.owner = '';
+			migrationHistoryTableSchema.privileges = {};
+
+			const sqlScript = sql.generateCreateTableScript(
+				config.migrationHistory.tableName,
+				migrationHistoryTableSchema,
+				config,
+			);
+
+			console.log('📝 SQL generado para tabla de historial:');
+			console.log(sqlScript);
+
+			await pgClient.query(sqlScript);
+			console.log('✅ Tabla de historial creada');
+		} else {
+			console.log('✅ Tabla de historial ya existe');
+		}
 	}
 
 	/**

@@ -6,8 +6,59 @@ export function generateCreateTableScript(
 	tableDefinition: any,
 	config: any,
 ): string {
-	// Implementation for generating CREATE TABLE script
-	return `-- CREATE TABLE ${tableName} script\n`;
+	const schema = config.migrationHistory.tableSchema;
+	const fullTableName = `"${schema}"."${tableName}"`;
+
+	let sql = `CREATE TABLE ${fullTableName} (\n`;
+
+	// Generar columnas
+	const columns = [];
+	for (const [columnName, columnDef] of Object.entries(tableDefinition.columns)) {
+		let columnSql = `    "${columnName}" ${columnDef.datatype}`;
+
+		// Agregar NOT NULL si es necesario
+		if (!columnDef.nullable) {
+			columnSql += ' NOT NULL';
+		}
+
+		columns.push(columnSql);
+	}
+
+	sql += columns.join(',\n');
+
+	// Agregar constraints
+	if (tableDefinition.constraints) {
+		for (const [constraintName, constraintDef] of Object.entries(tableDefinition.constraints)) {
+			sql += `,\n    CONSTRAINT ${constraintName} ${constraintDef.definition}`;
+		}
+	}
+
+	sql += '\n);\n';
+
+	// Agregar owner si existe
+	if (tableDefinition.owner) {
+		sql += `ALTER TABLE ${fullTableName} OWNER TO "${tableDefinition.owner}";\n`;
+	}
+
+	// Agregar privilegios si existen
+	if (tableDefinition.privileges) {
+		for (const [role, privileges] of Object.entries(tableDefinition.privileges)) {
+			const privilegeList = [];
+			if (privileges.select) privilegeList.push('SELECT');
+			if (privileges.insert) privilegeList.push('INSERT');
+			if (privileges.update) privilegeList.push('UPDATE');
+			if (privileges.delete) privilegeList.push('DELETE');
+			if (privileges.truncate) privilegeList.push('TRUNCATE');
+			if (privileges.references) privilegeList.push('REFERENCES');
+			if (privileges.trigger) privilegeList.push('TRIGGER');
+
+			if (privilegeList.length > 0) {
+				sql += `GRANT ${privilegeList.join(', ')} ON ${fullTableName} TO "${role}";\n`;
+			}
+		}
+	}
+
+	return sql;
 }
 
 export function generateChangeCommentScript(

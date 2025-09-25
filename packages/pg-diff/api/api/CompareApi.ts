@@ -1,11 +1,8 @@
 import { Client } from 'pg';
-import { Config, DatabaseObjects, CompareResult } from '../types';
+import { Config, DatabaseObjects } from '../types';
 import { Core } from '../core';
 import { CatalogApi } from './CatalogApi';
 import { DatabaseObjects as DatabaseObjectsClass } from '../models/databaseObjects';
-import * as sql from '../sqlScriptGenerator';
-import * as objectType from '../enums/objectType';
-import * as deepEqual from 'deep-equal';
 
 export class CompareApi {
 	/**
@@ -836,9 +833,59 @@ export class CompareApi {
 				file.write(`/***    CREATED ON: ${datetime.padEnd(titleLength)} ***/\n`);
 				file.write(`/******************${'*'.repeat(titleLength + 2)}***/\n`);
 
+				// Procesar líneas y agregar bloques DO $$ automáticamente
+				let inBlock = false;
+				let inDoBlock = false;
+
 				scriptLines.forEach(function (line: string) {
+					const trimmedLine = line.trim();
+					const isIndented = line.length > 0 && line[0] === ' ';
+
+					// Detectar si estamos dentro de un bloque DO $$ existente
+					if (trimmedLine.startsWith('DO $$')) {
+						inDoBlock = true;
+					}
+					if (trimmedLine === 'END $$;') {
+						inDoBlock = false;
+					}
+
+					// Detectar inicio de bloque SQL (solo si no estamos dentro de DO $$ y no está indentado)
+					if (
+						!inBlock &&
+						!inDoBlock &&
+						!isIndented &&
+						!trimmedLine.startsWith('DO $$') &&
+						!trimmedLine.startsWith('-- Crear') &&
+						!trimmedLine.startsWith('-- Actualizar') &&
+						!trimmedLine.startsWith('-- Eliminar') &&
+						(trimmedLine.startsWith('CREATE') ||
+							trimmedLine.startsWith('ALTER') ||
+							trimmedLine.startsWith('DROP') ||
+							trimmedLine.startsWith('INSERT') ||
+							trimmedLine.startsWith('UPDATE') ||
+							trimmedLine.startsWith('DELETE'))
+					) {
+						// Iniciar nuevo bloque con DO $$
+						file.write('DO $$\n');
+						file.write('BEGIN\n');
+						inBlock = true;
+					}
+
+					// Escribir la línea
 					file.write(line + '\n');
+
+					// Detectar fin de bloque (solo si no está indentado y termina con ;)
+					if (inBlock && !isIndented && trimmedLine.endsWith(';') && !inDoBlock) {
+						file.write('END $$;\n');
+						file.write('\n');
+						inBlock = false;
+					}
 				});
+
+				// Cerrar bloque pendiente si existe
+				if (inBlock) {
+					file.write('END $$;\n');
+				}
 
 				file.end();
 			} catch (err) {

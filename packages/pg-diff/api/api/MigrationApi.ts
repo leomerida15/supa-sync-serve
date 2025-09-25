@@ -5,7 +5,7 @@ import { Config, PatchInfo, MigrationConfig } from '../types';
 import { Core } from '../core';
 import * as sql from '../sqlScriptGenerator';
 import { patchStatus } from '../enums/patchStatus';
-import * as textReader from 'line-by-line';
+const textReader = require('line-by-line');
 
 export class MigrationApi {
 	/**
@@ -172,7 +172,7 @@ export class MigrationApi {
 		patchFileInfo: PatchInfo,
 		config: MigrationConfig,
 	): Promise<string> {
-		const sql = `SELECT "status" FROM ${config.migrationHistory.fullTableName} WHERE "version" = '${patchFileInfo.version}' AND "name" = '${patchFileInfo.name}'`;
+		const sql = `SELECT "version" FROM ${config.migrationHistory.fullTableName} WHERE "version" = '${patchFileInfo.version}' AND "name" = '${patchFileInfo.name}'`;
 		const response = await pgClient.query(sql);
 
 		if (response.rows.length > 1) {
@@ -182,7 +182,7 @@ export class MigrationApi {
 		}
 
 		if (response.rows.length < 1) return patchStatus.TO_APPLY;
-		else return response.rows[0].status;
+		else return patchStatus.DONE; // Si existe el registro, la migración ya se aplicó
 	}
 
 	/**
@@ -242,7 +242,8 @@ export class MigrationApi {
 				reader.on('line', function (line: string) {
 					readLines += 1;
 					if (readingBlock) {
-						if (line.startsWith('--- END')) {
+						if (line.trim() === 'END $$;') {
+							patchScript.command += `${line}\n`;
 							readingBlock = false;
 							reader.pause();
 							self
@@ -262,9 +263,9 @@ export class MigrationApi {
 						}
 					}
 
-					if (!readingBlock && line.startsWith('--- BEGIN')) {
+					if (!readingBlock && line.trim() === 'DO $$') {
 						readingBlock = true;
-						patchScript.command = '';
+						patchScript.command = line + '\n';
 						patchScript.message = line;
 					}
 				});
