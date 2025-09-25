@@ -40,7 +40,7 @@
 		},
 		"migrationOptions": {
 			"patchesDirectory": "db_migration",
-			"historyTableName": "pgdiff_history",
+			"historyTableName": "schema_migrations",
 			"historyTableSchema": "supabase_migrations"
 		}
 	}
