@@ -3,7 +3,7 @@ name: CI/CD - CLI
 on:
   push:
     branches:
-      - cli
+      - dev
 
 jobs:
   build:
