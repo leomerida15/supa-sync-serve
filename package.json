@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"license": "MIT",
-	"name": "@supabase-kit/supa-sync-server",
+	"name": "@supabase-kit/supa-sync-serve",
 	"author": {
 		"name": "leomerida15",
 		"email": "dimasmerida15@gmail.com",
