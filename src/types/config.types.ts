@@ -35,6 +35,7 @@ interface MigrationOptions {
 	historyTableName: string;
 	historyTableSchema: string;
 	seeds: string;
+	seedTableName: string;
 }
 
 export interface Entorno {

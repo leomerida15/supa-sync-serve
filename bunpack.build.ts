@@ -17,28 +17,7 @@ Bun.build({
 	// Optimizations for CLI library
 	splitting: false,
 	// External dependencies for CLI library - keep these as external to reduce bundle size
-	external: [
-		// Node.js built-in modules
-		'child_process',
-		'fs',
-		'path',
-		'os',
-		'util',
-		'stream',
-		'events',
-		'readline',
-		// CLI dependencies
-		'commander',
-		'@inquirer/prompts',
-		'chalk',
-		'figlet',
-		'clui',
-		// Database dependencies
-		'pg',
-		// Utility dependencies
-		'deep-equal',
-		'line-by-line',
-	],
+
 	// Define environment for production
 	define: {
 		'process.env.NODE_ENV': '"production"',

@@ -86,6 +86,8 @@ export interface MigrationOptions {
 	historyTableSchema: string;
 	/** Directory where seed files are stored */
 	seeds: string;
+	/** Name of the seed tracking table */
+	seedTableName: string;
 }
 
 /**

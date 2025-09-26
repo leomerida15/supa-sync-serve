@@ -288,34 +288,37 @@ export class CatalogApi {
 			: [config.compareOptions.schemaCompare.namespaces];
 
 		for (const namespace of namespaces) {
+			console.log(`🔍 Retrieving foreign keys for namespace: ${namespace}`);
+
 			const result = await client.query(
 				`
 				SELECT 
-					tc.table_name,
-					tc.constraint_name,
-					tc.constraint_type,
-					kcu.column_name,
-					ccu.table_name AS foreign_table_name,
-					ccu.table_name AS foreign_table_name,
-					ccu.column_name AS foreign_column_name,
+					n.nspname AS schema_name,
+					c.relname AS table_name,
+					con.conname AS constraint_name,
+					con.contype AS constraint_type,
+					a.attname AS column_name,
+					ft.relname AS foreign_table_name,
+					fa.attname AS foreign_column_name,
 					rc.update_rule,
 					rc.delete_rule
-				FROM information_schema.table_constraints AS tc 
-				JOIN information_schema.key_column_usage AS kcu
-					ON tc.constraint_name = kcu.constraint_name
-					AND tc.table_schema = kcu.table_schema
-				JOIN information_schema.constraint_column_usage AS ccu
-					ON ccu.constraint_name = tc.constraint_name
-					AND ccu.table_schema = tc.table_schema
+				FROM pg_constraint con
+				JOIN pg_class c ON con.conrelid = c.oid
+				JOIN pg_namespace n ON c.relnamespace = n.oid
+				JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum = ANY(con.conkey)
+				LEFT JOIN pg_class ft ON con.confrelid = ft.oid
+				LEFT JOIN pg_attribute fa ON fa.attrelid = ft.oid AND fa.attnum = ANY(con.confkey)
 				LEFT JOIN information_schema.referential_constraints AS rc
-					ON tc.constraint_name = rc.constraint_name
-					AND tc.table_schema = rc.constraint_schema
-				WHERE tc.constraint_type = 'FOREIGN KEY' 
-					AND tc.table_schema = $1
-				ORDER BY tc.table_name, tc.constraint_name
+					ON con.conname = rc.constraint_name
+					AND n.nspname = rc.constraint_schema
+				WHERE con.contype = 'f'
+					AND n.nspname = $1
+				ORDER BY c.relname, con.conname
 			`,
 				[namespace],
 			);
+
+			console.log(`📊 Found ${result.rows.length} foreign keys in namespace ${namespace}`);
 
 			result.rows.forEach((row: any) => {
 				const fkName = `"${namespace}"."${row.table_name}"."${row.constraint_name}"`;
@@ -329,6 +332,10 @@ export class CatalogApi {
 					updateRule: row.update_rule,
 					deleteRule: row.delete_rule,
 				};
+
+				console.log(
+					`  ✅ FK: ${fkName} -> ${namespace}.${row.foreign_table_name}.${row.foreign_column_name}`,
+				);
 			});
 		}
 

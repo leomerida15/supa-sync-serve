@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, statSync } from 'fs';
 import { join, extname } from 'path';
+import { createHash } from 'crypto';
 import { Client } from 'pg';
 import { Entorno } from '../../types/config.types';
 
@@ -26,6 +27,8 @@ export async function executeSeeds(
 
 		const entorno = config[configName];
 		const seedsDirectory = entorno.migrationOptions.seeds;
+		const schemaName = entorno.migrationOptions.historyTableSchema;
+		const tableName = entorno.migrationOptions.seedTableName;
 
 		// Determine which database client to use
 		const clientConfig = target === 'source' ? entorno.sourceClient : entorno.targetClient;
@@ -59,10 +62,14 @@ export async function executeSeeds(
 		await client.connect();
 
 		try {
+			// Ensure schema and table exist
+			await ensureSeedTrackingTable(client, schemaName, tableName);
+
+			// Get already executed seeds
+			const executedSeeds = await getExecutedSeeds(client, schemaName, tableName);
+
 			// Execute each seed file in order
 			for (const seedFile of seedFiles) {
-				console.log(`🔄 Executing seed: ${seedFile}`);
-
 				const filePath = join(seedsDirectory, seedFile);
 				const sqlContent = readFileSync(filePath, 'utf8');
 
@@ -71,8 +78,24 @@ export async function executeSeeds(
 					continue;
 				}
 
+				// Generate hash of file content
+				const fileHash = createHash('md5').update(sqlContent).digest('hex');
+				const seedPath = join(seedsDirectory, seedFile);
+
+				// Check if this seed has already been executed
+				if (executedSeeds.has(seedPath)) {
+					console.log(`⏭️  Skipping already executed seed: ${seedFile}`);
+					continue;
+				}
+
+				console.log(`🔄 Executing seed: ${seedFile}`);
+
 				// Execute the SQL
 				await client.query(sqlContent);
+
+				// Record the execution
+				await recordSeedExecution(client, schemaName, tableName, seedPath, fileHash);
+
 				console.log(`✅ Successfully executed: ${seedFile}`);
 			}
 
@@ -94,4 +117,56 @@ function getSeedFiles(directory: string): string[] {
 		// Directory doesn't exist or can't be read
 		return [];
 	}
+}
+
+async function ensureSeedTrackingTable(
+	client: Client,
+	schemaName: string,
+	tableName: string,
+): Promise<void> {
+	// Create schema if it doesn't exist
+	await client.query(`CREATE SCHEMA IF NOT EXISTS "${schemaName}"`);
+
+	// Create table if it doesn't exist
+	const createTableQuery = `
+		CREATE TABLE IF NOT EXISTS "${schemaName}"."${tableName}" (
+			path TEXT NOT NULL,
+			hash TEXT NOT NULL,
+			CONSTRAINT ${tableName}_pkey PRIMARY KEY (path)
+		) TABLESPACE pg_default;
+	`;
+
+	await client.query(createTableQuery);
+	console.log(`📊 Seed tracking table ensured: ${schemaName}.${tableName}`);
+}
+
+async function getExecutedSeeds(
+	client: Client,
+	schemaName: string,
+	tableName: string,
+): Promise<Set<string>> {
+	try {
+		const result = await client.query(`SELECT path FROM "${schemaName}"."${tableName}"`);
+		return new Set(result.rows.map((row) => row.path));
+	} catch (error) {
+		// Table might not exist yet, return empty set
+		return new Set();
+	}
+}
+
+async function recordSeedExecution(
+	client: Client,
+	schemaName: string,
+	tableName: string,
+	path: string,
+	hash: string,
+): Promise<void> {
+	const insertQuery = `
+		INSERT INTO "${schemaName}"."${tableName}" (path, hash)
+		VALUES ($1, $2)
+		ON CONFLICT (path) DO UPDATE SET
+			hash = EXCLUDED.hash;
+	`;
+
+	await client.query(insertQuery, [path, hash]);
 }

@@ -677,7 +677,10 @@ export class CompareApi {
 	): string[] {
 		const sqlPatch: string[] = [];
 
-		if (!sourceForeignKeys) return sqlPatch;
+		if (!sourceForeignKeys) {
+			console.log('\n🔍 COMPARANDO FOREIGN KEYS: No source foreign keys found');
+			return sqlPatch;
+		}
 		if (!targetForeignKeys) targetForeignKeys = {};
 
 		console.log('\n🔍 COMPARANDO FOREIGN KEYS:');
@@ -690,13 +693,28 @@ export class CompareApi {
 			targetForeignKeys ? Object.keys(targetForeignKeys) : 'undefined',
 		);
 
+		// Log detailed foreign key information for debugging
+		if (Object.keys(sourceForeignKeys).length > 0) {
+			console.log('\n📋 DETALLES DE FOREIGN KEYS EN SOURCE:');
+			Object.entries(sourceForeignKeys).forEach(([fkName, fkData]: [string, any]) => {
+				console.log(`  ${fkName}:`);
+				console.log(`    Table: ${fkData.schema}.${fkData.tableName}`);
+				console.log(`    Column: ${fkData.columnName}`);
+				console.log(
+					`    References: ${fkData.schema}.${fkData.foreignTableName}.${fkData.foreignColumnName}`,
+				);
+				console.log(`    Update Rule: ${fkData.updateRule || 'NO ACTION'}`);
+				console.log(`    Delete Rule: ${fkData.deleteRule || 'NO ACTION'}`);
+			});
+		}
+
 		// Comparar foreign keys que están en source pero no en target
 		Object.keys(sourceForeignKeys).forEach((fkName) => {
 			if (!targetForeignKeys[fkName]) {
 				console.log(`✅ Foreign Key ${fkName} faltante en TARGET`);
 				const fkData = sourceForeignKeys[fkName];
 
-				sqlPatch.push(`-- Crear foreign key ${fkName} si no existe`);
+				sqlPatch.push(`-- Crear foreign key ${fkData.constraintName} si no existe`);
 				sqlPatch.push(`DO $$`);
 				sqlPatch.push(`BEGIN`);
 				sqlPatch.push(`    -- Verificar que la tabla referenciada existe y tiene la columna`);
@@ -711,23 +729,29 @@ export class CompareApi {
 					`        WHERE constraint_name = '${fkData.constraintName}' AND table_name = '${fkData.tableName}' AND table_schema = '${fkData.schema}') THEN`,
 				);
 				sqlPatch.push(
-					`        ALTER TABLE "${fkData.schema}"."${fkData.tableName}" ADD CONSTRAINT ${fkData.constraintName}`,
+					`        ALTER TABLE "${fkData.schema}"."${fkData.tableName}" ADD CONSTRAINT "${fkData.constraintName}"`,
 				);
 				sqlPatch.push(
-					`        FOREIGN KEY (${fkData.columnName}) REFERENCES "${fkData.schema}"."${fkData.foreignTableName}"(${fkData.foreignColumnName})`,
+					`        FOREIGN KEY ("${fkData.columnName}") REFERENCES "${fkData.schema}"."${fkData.foreignTableName}"("${fkData.foreignColumnName}")`,
 				);
-				if (fkData.updateRule) {
+				if (fkData.updateRule && fkData.updateRule !== 'NO ACTION') {
 					sqlPatch.push(`        ON UPDATE ${fkData.updateRule}`);
 				}
-				if (fkData.deleteRule) {
+				if (fkData.deleteRule && fkData.deleteRule !== 'NO ACTION') {
 					sqlPatch.push(`        ON DELETE ${fkData.deleteRule}`);
 				}
 				sqlPatch.push(`        ;`);
 				sqlPatch.push(`    END IF;`);
 				sqlPatch.push(`END $$;`);
 				sqlPatch.push(``);
+			} else {
+				console.log(`ℹ️  Foreign Key ${fkName} ya existe en TARGET`);
 			}
 		});
+
+		if (sqlPatch.length === 0) {
+			console.log('ℹ️  No se encontraron foreign keys faltantes');
+		}
 
 		return sqlPatch;
 	}

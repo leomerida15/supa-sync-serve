@@ -115,7 +115,9 @@ VALUES (
     (
         'science_and_higher_education',
         '550e8400-e29b-41d4-a716-446655440030'
-    );
+    ) ON CONFLICT (id) DO
+UPDATE
+SET name = EXCLUDED.name;
 INSERT INTO "public"."form_case_two_policy_sub_objective" ("name", "id", "form_cae_two_policy_objective_id")
 VALUES (
         'access_to_basic_urban_services',
@@ -551,4 +553,7 @@ VALUES (
         'gender_approach_mainstreaming_in_public_policies',
         '660e8400-e29b-41d4-a716-446655440078',
         '550e8400-e29b-41d4-a716-446655440027'
-    );
+    ) ON CONFLICT (id) DO
+UPDATE
+SET name = EXCLUDED.name,
+    form_cae_two_policy_objective_id = EXCLUDED.form_cae_two_policy_objective_id;

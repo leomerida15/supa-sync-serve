@@ -42,7 +42,8 @@
 			"patchesDirectory": "db_migration",
 			"historyTableName": "schema_migrations",
 			"historyTableSchema": "supabase_migrations",
-			"seeds": "seeds"
+			"seeds": "seeds",
+			"seedTableName": "seed_files"
 		}
 	},
 	"GobernAI-Lab.sync.config": {
@@ -88,7 +89,8 @@
 			"patchesDirectory": "db_migration",
 			"historyTableName": "schema_migrations",
 			"historyTableSchema": "supabase_migrations",
-			"seeds": "seeds"
+			"seeds": "seeds",
+			"seedTableName": "seed_files"
 		}
 	}
 }
