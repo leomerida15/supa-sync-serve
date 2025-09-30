@@ -5,7 +5,7 @@ import { initCommand } from './init';
 
 const program = new Command();
 
-program.name('diff-supa').description('CLI to sync Supabase databases').version('0.8.0');
+program.name('supa-sync-server').description('CLI to sync Supabase databases').version('1.0.0');
 
 // Add diff command
 program.addCommand(diffCommand);

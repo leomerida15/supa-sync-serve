@@ -24,8 +24,8 @@ Bun.build({
 	},
 	// Naming pattern for output files
 	naming: {
-		entry: '[name]',
-		chunk: '[name]-[hash]',
+		entry: '[name].js',
+		chunk: '[name]-[hash].js',
 		asset: '[name]-[hash]',
 	},
 })
