@@ -10,7 +10,7 @@ console.time(timetaken);
 Bun.build({
 	entrypoints: ['./src/index.ts'],
 	outdir: './dist',
-	format: 'cjs',
+	format: 'esm',
 	minify: true, // Enable minification for smaller bundle size
 	sourcemap: 'external', // External sourcemaps for better debugging without bloating the bundle
 	target: 'node',
