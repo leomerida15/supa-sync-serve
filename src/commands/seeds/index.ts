@@ -17,7 +17,7 @@ export async function executeSeeds(
 		console.log(`🌱 Starting seed execution for config: ${configName}, target: ${target}`);
 
 		// Load configuration
-		const configPath = configFilePath || 'config.json';
+		const configPath = configFilePath || 'pg-diff-config.json';
 		const configContent = readFileSync(configPath, 'utf8');
 		const config: SeedConfig = JSON.parse(configContent);
 

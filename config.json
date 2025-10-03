@@ -92,5 +92,48 @@
 			"seeds": "seeds",
 			"seedTableName": "seed_files"
 		}
+	},
+	"gobernAI-dev-to-qa": {
+		"sourceClient": {
+			"host": "aws-0-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.qklwlyoenlffxnwrkxuc",
+			"password": "Ry7wnJ7igynho0Ef",
+			"applicationName": "pg-diff-cli"
+		},
+		"targetClient": {
+			"host": "aws-1-us-east-2.pooler.supabase.com",
+			"port": 5432,
+			"database": "postgres",
+			"user": "postgres.yvztwadvzlapiqjkmabb",
+			"password": "0fOugP3ALnqFUdJy",
+			"applicationName": "pg-diff-cli"
+		},
+		"compareOptions": {
+			"author": "dimas merida",
+			"outputDirectory": "supabase/migrations",
+			"getAuthorFromGit": false,
+			"schemaCompare": {
+				"namespaces": ["public"],
+				"dropMissingTable": false,
+				"dropMissingView": false,
+				"dropMissingFunction": false,
+				"dropMissingAggregate": false,
+				"dropMissingType": false,
+				"dropMissingEnum": false,
+				"roles": [],
+				"rowLevelSecurity": false
+			},
+			"dataCompare": {
+				"enable": true,
+				"tables": [""]
+			}
+		},
+		"migrationOptions": {
+			"patchesDirectory": "db_migration",
+			"historyTableName": "schema_migrations",
+			"historyTableSchema": "supabase_migrations"
+		}
 	}
 }

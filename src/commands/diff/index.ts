@@ -2,7 +2,9 @@ import { Command } from 'commander';
 import { Run } from '../../../packages/pg-diff/cli/main';
 
 export const diffCommand = new Command('diff')
-	.description('Extract and use all commands from pg-diff-cli package')
+	.description(
+		'Extract and use all commands from pg-diff-cli package, including database comparison, migrations, and seed execution',
+	)
 	.allowUnknownOption()
 	.allowExcessArguments(true)
 
@@ -10,11 +12,11 @@ export const diffCommand = new Command('diff')
 	.option('-h, --help', 'To show help')
 	.option('-c, --compare', 'To run compare and generate a patch file')
 	.option(
-		'--migrate-to-source',
+		'-M, --migrate-to-source',
 		'To run migration applying all missing patch files to SOURCE CLIENT',
 	)
 	.option(
-		'--migrate-to-target',
+		'-N, --migrate-to-target',
 		'To run migration applying all missing patch files to TARGET CLIENT',
 	)
 	.option(
@@ -35,6 +37,15 @@ export const diffCommand = new Command('diff')
 
 	.action(async (options, command) => {
 		try {
+			// Process custom flags -ss and -st before normal processing
+			const processedArgs = processCustomFlags(process.argv);
+			if (processedArgs !== process.argv) {
+				process.argv = processedArgs;
+				// Re-parse with processed arguments
+				command.parse(processedArgs);
+				return;
+			}
+
 			// Get all remaining arguments (after options)
 			const remainingArgs = command.args;
 
@@ -43,7 +54,9 @@ export const diffCommand = new Command('diff')
 
 			// Add help flag first (highest priority)
 			if (options.help) {
-				args.push('--help');
+				// Show custom help that includes seed commands
+				showCustomHelp();
+				return;
 			}
 			// Add compare flag if specified
 			else if (options.compare) {
@@ -166,3 +179,73 @@ export const diffCommand = new Command('diff')
 			process.exit(1);
 		}
 	});
+
+function showCustomHelp(): void {
+	console.log(`
+OPTION                      		DESCRIPTION
+-h,  --help                		To show this help.
+-c,  --compare             		To run compare and generate a patch file.
+-ms, --migrate-to-source   		To run migration applying all missing patch files to SOURCE CLIENT.
+-mt, --migrate-to-target   		To run migration applying all missing patch files to TARGET CLIENT.
+-f,  --config-file         		To specify where to find config file, otherwise looks for 'pg-diff-config.json' on current working directory.
+-p,  --patch-folder        		To set patch folder where save\\retrieve patches (it will override configuration).
+-s,  --save                		To save\\register patch on migration history table without executing the script.
+-g,  --generate-config     		To generate a new config file.
+-ss, --seed-to-source      		To run seeds applying all seed files to SOURCE CLIENT.
+-st, --seed-to-target      		To run seeds applying all seed files to TARGET CLIENT.
+
+TO GENERATE CONFIG FILE: pg-diff -g [configuration-file-name]
+                EXAMPLE: pg-diff -g 
+                EXAMPLE: pg-diff -g my-config
+
+             TO COMPARE: pg-diff -c configuration-name script-name
+                EXAMPLE: pg-diff -c development my-script
+
+             TO MIGRATE: pg-diff [-ms | -mt] configuration-name
+                EXAMPLE: pg-diff -ms development
+                EXAMPLE: pg-diff -mt development
+
+            TO REGISTER: pg-diff -s configuration-name patch-file-name
+                EXAMPLE: pg-diff -s development 20182808103040999_my-script.sql
+
+           TO EXECUTE SEEDS: pg-diff [-ss | -st] configuration-name
+                EXAMPLE: pg-diff -ss development
+                EXAMPLE: pg-diff -st development
+                EXAMPLE: pg-diff --seed-to-source development
+                EXAMPLE: pg-diff --seed-to-target development
+                EXAMPLE: pg-diff -ss production --config-file custom-config.json
+`);
+}
+
+function processCustomFlags(argv: string[]): string[] {
+	// Create a copy of argv to avoid modifying the original
+	const newArgv = [...argv];
+	let modified = false;
+
+	for (let i = 0; i < newArgv.length; i++) {
+		const arg = newArgv[i];
+
+		// Check for -ss flag (seed-to-source)
+		if (arg === '-ss') {
+			newArgv[i] = '--seed-to-source';
+			modified = true;
+		}
+		// Check for -st flag (seed-to-target)
+		else if (arg === '-st') {
+			newArgv[i] = '--seed-to-target';
+			modified = true;
+		}
+		// Check for -ms flag (migrate-to-source)
+		else if (arg === '-ms') {
+			newArgv[i] = '-M';
+			modified = true;
+		}
+		// Check for -mt flag (migrate-to-target)
+		else if (arg === '-mt') {
+			newArgv[i] = '-N';
+			modified = true;
+		}
+	}
+
+	return modified ? newArgv : argv;
+}
