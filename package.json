@@ -8,7 +8,7 @@
 		"url": "https://github.com/leomerida15"
 	},
 	"homepage": "https://github.com/leomerida15/supa-sync-serve#readme",
-	"version": "1.0.5",
+	"version": "1.1.5",
 	"description": "A CLI tool for comparing and migrating Supabase database schemas",
 	"keywords": [
 		"supabase",
@@ -26,7 +26,7 @@
 		"url": "https://github.com/leomerida15/supa-sync-server/issues"
 	},
 	"bin": {
-		"supa-sync-server": "./dist/index.js"
+		"supa-sync-serve": "./dist/index.js"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
